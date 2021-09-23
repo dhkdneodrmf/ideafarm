@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+    {% include 'head.html' %}
+    <body>
+        <header class="container-md p-0">
+            {% include 'tnb.html' %}
+        </header>
+        <section class="container-sm my-4 p-2">
+            <div class="d-md-flex justify-content-evenly align-content-center">
+                <h2>회원가입</h2>
+                <nav class="d-flex align-items-end" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0 ">
+                        <li class="breadcrumb-item" aria-current="page">01 약관동의</li>
+                        <li class="breadcrumb-item">02 정보입력</li>
+                        <li class="breadcrumb-item active text-info">03 가입완료</li>
+                    </ol>
+                </nav>
+            </div>
+            <hr>
+            <fieldset class="row justify-content-center">
+                <div class="col-xl-6 col-lg-8 col-md-10 boxshadow p-5" id="memberjoinstep3">
+                    <h2 class="text-center"><span class="text-warning">아이디어팜</span> 회원가입이 완료되었습니다.</h2>    
+                    <legend class="col-form-label text-center mb-3 gray">가입을 축하드립니다. 아이디어팜의 스타트업 성공을 기원합니다.</legend>
+                    <div class="my-2 d-grid gap-2 col-4 mx-auto">
+                        <input class="btn btn-outline-primary btn-lg" type="button" onclick="location.href='{% url 'login' %}?next={{req.path}}';" value="로그인하기">
+                    </div>
+                </div>
+            </fieldset>
+        </section>
+        {% include 'footer.html' %}
+    </body>
+</html>

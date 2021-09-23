@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+    {% include 'head.html' %}
+    <body>
+        <header class="container-md p-0">
+            {% include 'tnb.html' %}
+        </header>
+        <section class="container-sm my-4 p-2">
+            <form action="/findpwcheck?next={{req.GET.next}}" method="POST">
+                {% csrf_token %}
+                <fieldset class="row justify-content-center">
+                    <div class="col-lg-6 boxshadow p-5">
+                            <h2 class="text-center">창업에 도움되는<br>지식 연결 플랫폼</h2>    
+                            <legend class="col-form-label text-center gray">당신의 첫 사업파트너</legend>
+                            <legend class="col-form-label text-center mb-3 fs-4">비밀번호 찾기</legend>
+                            <div class="row my-3 p-0">
+                                <div class="col-md-12">
+                                    <label for="Inputid" class="form-label fw-bold">아이디</label>
+                                    <input type="text" class="form-control my-2" id="Inputid" name="eid" placeholder="4글자 ~ 20글자 이상 영문 및 숫자." pattern="^[A-Za-z0-9]{4,20}$" required>
+                                </div>
+                                <div class="col-md">
+                                    <label class="fw-bold" for="Inputname">이름</label>
+                                    <input type="text" class="form-control my-2" id="Inputname" name="ename" placeholder="가입 당시의 이름을 입력해주세요." pattern="^[가-힣]{2,12}$" required>
+                                </div>
+                                <div class="col-md">
+                                    <labell class="fw-bold" for="Inputbirth">생년월일</labell>
+                                    <input type="date" class="form-control my-2" id="Inputbirth" name="ebirth" placeholder="가입 당시의 생년월일을 입력해주세요." min="1930-01-01" max="2010-12-31" required>
+                                </div>
+                                <div class="col-md-12">
+                                    <label for="Inputtel" class="form-label fw-bold">휴대전화번호</label>
+                                    <div class="input-group">
+                                        <select class="form-select" aria-label="Inputtel" name="etelnation" id="jtelnation" onchange="selectnation(this);" required>
+                                            <option value="KR" selected>대한민국</option>
+                                            <option value="ETC">국외</option>
+                                        </select>
+                                        <select class="form-select" aria-label="Inputtel" name="etel1" required>
+                                            <option value="0" selected>010</option>
+                                            <option value="1">011</option>
+                                            <option value="2">012</option>
+                                            <option value="3">013</option>
+                                            <option value="4">014</option>
+                                            <option value="5">015</option>
+                                            <option value="6">016</option>
+                                            <option value="7">017</option>
+                                            <option value="8">018</option>
+                                            <option value="9">019</option>
+                                        </select>
+                                        <span class="mx-2 mt-2"> - </span>
+                                        <input type="tel" class="form-control" id="Inputtel2" name="etel2" pattern="\d{4}$" maxlength="4" required>
+                                        <span class="mx-2 mt-2"> - </span>
+                                        <input type="tel" class="form-control" id="Inputtel3" name="etel3" pattern="\d{4}$" maxlength="4" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-grid gap-2 mt-4">
+                                <input class="btn btn-primary btn-lg" type="submit" value="찾기">
+                            </div>
+                            <div class="d-flex justify-content-center mt-4">
+                                <a href="/findid?next={{req.GET.next}}">아이디 찾기</a>
+                            </div>
+                    </div>
+                </fieldset>
+                <input type="hidden" name="next" value="{{ req.GET.next }}">
+            </form>
+            <script>
+                //국내 휴대전화와 국외 휴대전화구분하여 다르게 선택하면 다르게 표시
+                var krhtml = $("#jtelnation").nextAll();
+                var etchtml ="<input type='tel' class='form-control col-10' name='etel' pattern='\\d{3,12}$' placeholder='3~12 Full Phone Number(int)' maxlength='12' required>";
+                function selectnation(th){
+                    if (th.value=="KR"){
+                        $(th).nextAll().remove();
+                        $(th).parent().append(krhtml);
+                    } else {
+                        krhtml.remove();
+                        $(th).parent().append(etchtml);
+                    }
+                }
+            </script>
+            {% if msg %}
+            <script>
+                alert("{{msg}}");
+                location.href="/findpw?next={{ req.GET.next }}";
+            </script>
+            {% endif %}
+        </section>
+        {% include 'footer.html' %}
+    </body>
+</html>

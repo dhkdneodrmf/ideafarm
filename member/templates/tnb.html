@@ -1,0 +1,67 @@
+{% load static %}
+            <!--<div class="d-md-flex justify-content-between align-items-center my-2">
+                <div class="flex-grow-1 mb-3 mb-lg-0">
+                    <a href="http://www.iamstartup.co.kr" target="_blank"><span class="p-2">아임스타트업</span></a>
+                    <a href="http://www.edustartup.co.kr" target="_blank"><span class="p-2">에듀스타트업</span></a>
+                    <a href="#"><span class="p-2">아이디어팜</span></a>
+                </div>
+                <div class="text-end">
+                    <span class="p-2"><img src="{% static 'notice.png' %}" width="20px"></span>
+                    <span class="p-2"><img src="{% static '그룹 3429.png' %}"></span>
+                    <span class="p-2"><img src="{% static '패스 5248.png' %}">&nbsp;밥볶음</span>
+                    <span class="p-2">내 콘텐츠&nbsp;<img src="{% static '패스 5637.png' %}"></span>
+                    <span class="p-2">마이페이지&nbsp;<img src="{% static '패스 5637.png' %}"></span>
+                </div>
+            </div>-->
+            <nav class="navbar navbar-expand-sm navbar-light p-0 border-bottom">
+                <div class="container-fluid p-0">
+                    <div>
+                        <!--<a href="http://www.iamstartup.co.kr" target="_blank"><span class="p-2">아임스타트업</span></a>-->
+                        <a href="http://www.edustartup.co.kr" target="_blank"><span class="p-2">에듀스타트업</span></a>
+                        <a href="/"><span class="p-2">아이디어팜</span></a>
+                    </div>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent2" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent2">
+                        <ul class="navbar-nav ms-auto">
+                            <!--<li class="nav-item">
+                                <a class="nav-link" href="#"><img src="{% static 'notice.png' %}" width="20px"></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"><img src="{% static '그룹 3429.png' %}"></a>
+                            </li>-->
+                            {% if not userexist %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'join' %}?next={{req.path}}">회원가입</a>
+                            </li>
+                            {% endif %}
+                            <li class="nav-item">
+                                {% if userexist %}
+                                <a class="nav-link" href="/mypage"><img src="{% static '패스 5248.png' %}">&nbsp;{{userexist.Unick}}</a>
+                                {% else %}
+                                <a class="nav-link" href="{% url 'login' %}?next={{req.path}}">로그인</a>
+                                {% endif %}
+                            </li>
+                            {% if userexist %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-bs-toggle="dropdown" aria-expanded="false">마이페이지</a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
+                                    <li><a class="dropdown-item" href="{% url 'mimpwneed' %}?next={{req.path}}">회원정보수정</a></li>
+                                    <li><a class="dropdown-item" href="/order/list">주문내역</a></li>
+                                    <!--<li><a class="dropdown-item" href="#">내 쇼핑몰</a></li>-->
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="/logout">로그아웃</a></li>
+                                </ul>
+                            </li>
+                            {% endif %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/order/cart">장바구니</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/board">고객센터</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>

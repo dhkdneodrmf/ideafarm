@@ -1,0 +1,406 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+    {% include 'head.html' %}
+    <body>
+        <header class="container-md p-0">
+            {% include 'tnb.html' %}
+        </header>
+        <section class="container-sm my-4 p-2">
+            <div class="d-md-flex justify-content-evenly align-content-center">
+                <h2>회원정보수정</h2>
+            </div>
+            <hr>
+            <form action="/meminfomodcomp?next={{req.GET.next}}" method="post" onsubmit="return isValid()">
+                {% csrf_token %}
+                <fieldset class="row justify-content-center">
+                    <div class="col-xl-6 col-lg-8 col-md-10 boxshadow p-5" id="memberjoinstep2">
+                        <ul class="nav nav-pills mb-4" id="pills-tab" role="tablist">
+                            <li class="nav-item col-6 d-grid mx-auto" role="presentation">
+                                <button class="nav-link {% if userexist.Utype == "normal" %}active{% endif %}" id="pills-normal-tab" data-bs-toggle="pill" data-bs-target="#pills-normal" type="button" role="tab" aria-controls="pills-normal" aria-selected="{% if userexist.Utype == "normal" %}true{% else %}false{% endif %}" onclick="memtype();">일반회원</button>
+                            </li>
+                            <li class="nav-item col-6 d-grid mx-auto" role="presentation">
+                                <button class="nav-link {% if userexist.Utype == "company" %}active{% endif %}" id="pills-company-tab" data-bs-toggle="pill" data-bs-target="#pills-company" type="button" role="tab" aria-controls="pills-company" aria-selected="{% if userexist.Utype == "company" %}true{% else %}false{% endif %}" onclick="memtype();">기업회원</button>
+                            </li>
+                        </ul>
+                        <h3>기본정보</h3>
+                        <hr class="border border-dark">
+                        <div class="my-3">
+                            <label for="Inputid" class="form-label fw-bold">아이디</label>
+                            <input type="text" class="form-control" id="Inputid" name="jid" placeholder="4글자 ~ 20글자 이상 영문 및 숫자. 중복아이디 가입불가" readonly value="{{userexist.UID}}">
+                        </div>
+                        <div class="my-3">
+                            <label for="InputPassword" class="form-label fw-bold">비밀번호(비밀번호를 수정하려면 변경하세요.)</label>
+                            <input type="password" class="form-control" id="InputPassword" name="jpw" placeholder="5글자 ~ 20글자의 영문대문자, 소문자, 숫자, 특수문자" onchange="confirmpw();" value="{{userexist.UPW}}" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[`!@#$%^&amp;*()-_=+\\\|\[\]\{\};:'&quot;,.<>\/?`]).{5,20}$">
+                            <div></div>
+                        </div>
+                        <div class="my-3">
+                            <label for="InputPasswordre" class="form-label fw-bold">비밀번호 확인</label>
+                            <input type="password" class="form-control" id="InputPasswordre" name="jpwre" placeholder="입력한 비밀번호 그대로 입력하세요." onchange="confirmpw();" value="{{userexist.UPW}}">
+                            <div></div>
+                        </div>
+                        <div class="my-3">
+                            <label for="InputNickname" class="form-label fw-bold">닉네임</label>
+                            <input type="text" class="form-control" id="InputNickname" name="jnick" placeholder="보여질 이름을 설정하세요.(최대20글자)" maxlength="20" pattern="^[가-힣a-zA-Z0-9\-]{1,20}$" value="{{userexist.Unick}}" required>
+                        </div>
+                        <div class="my-3">
+                            <label for="Inputname" class="form-label fw-bold">이름</label>
+                            <input type="text" class="form-control" id="Inputname" name="jname" placeholder="가입하시는 분의 실명을 입력하세요." pattern="^[가-힣]{2,12}$" minlength="2" maxlength="12" value="{{userexist.Uname}}" required>
+                        </div>
+                        <div class="row my-3 p-0">
+                            <div class="col-md">
+                                <label for="Inputbirth" class="form-label fw-bold">생년월일</label>
+                                <input type="date" class="form-control" id="Inputbirth" name="jbirth" placeholder="가입하시는 분의 생년월일을 입력하세요." min="1930-01-01" max="2010-12-31" value="{{userexist.Ubrith|date:"Y-m-d"}}" readonly>
+                            </div>
+                            <div class="col-md">
+                                <label for="Inputgender" class="form-label fw-bold">성별<span class='text-danger fw-bold'>*</span></label>
+                                <select class="form-select" aria-label="Inputtel" id="Inputgender" name="jgender" readonly>
+                                    <option value="M" {% if userexist.Ugender == 'M' %} selected{% endif %}>남성</option>
+                                    <option value="W" {% if userexist.Ugender == 'W' %} selected{% endif %}>여성</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="my-3">
+                            <label for="Inputtel" class="form-label fw-bold">휴대전화번호</label>
+                            <div class="input-group">
+                                <select class="form-select" aria-label="Inputtel" name="jtelnation" id="jtelnation" onchange="selectnation(this);" required>
+                                    <option value="KR" {% if userexist.Unation == "KR" %}selected{% endif %}>대한민국</option>
+                                    <option value="ETC"{% if userexist.Unation == "ETC" %}selected{% endif %}>국외</option>
+                                </select>
+                                <select class="form-select" aria-label="Inputtel" name="jtel1" required>
+                                    {% with list='0 1 2 3 4 5 6 7 8 9' %}
+                                        {% for i in list.split %}
+                                        <option value="{{forloop.counter0}}" {% if userexist.Utel|slice:"2:3" == i %} selected {% endif %}>01{{forloop.counter0}}</option>
+                                        {% endfor %}
+                                    {% endwith %}
+                                </select>
+                                <span class="mx-2 mt-2"> - </span>
+                                <input type="tel" class="form-control" id="Inputtel2" name="jtel2" pattern="\d{4}$" maxlength="4" value="{{userexist.Utel|slice:"4:8"}}" required>
+                                <span class="mx-2 mt-2"> - </span>
+                                <input type="tel" class="form-control" id="Inputtel3" name="jtel3" pattern="\d{4}$" maxlength="4" value="{{userexist.Utel|slice:"9:13"}}" required>
+                                <button class="btn btn-outline-secondary" type="button" id="phoneconfirm">본인확인(안됨)</button>
+                            </div>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="Jsmsrecive" id="smsrecive" value="Ture" {% if userexist.Usmsrecive %}checked{% endif %}>
+                            <label class="form-check-label" for="smsrecive">
+                                소식, 이벤트 정보 등 SMS 문자 수신에 동의합니다.
+                            </label>
+                        </div>
+                        <div class="my-3">
+                            <label for="Inputtel" class="form-label fw-bold">이메일</label>
+                            <input type="email" class="form-control" id="Inputemail" name="jemail" placeholder="수신받을 수 있는 이메일을 입력하세요.(최대60자)" value="{{userexist.Uemail}}" pattern="^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$" maxlength="60" required>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="Jmailrecive" id="mailrecive" value="Ture" {% if userexist.Umailrecive %}checked{% endif %}>
+                            <label class="form-check-label" for="mailrecive">
+                                소식, 이벤트 정보 등 메일 수신에 동의합니다.
+                            </label>
+                        </div>
+                        <div class="row my-3">
+                            <label class="form-label fw-bold">주소</label>
+                            <div class="col-md-3 col-9 my-1 pe-0">
+                                <input class="form-control" type="text" id="zipcode" name="jzipcode" placeholder="우편번호" value="{{userexist.Upostcode}}" readonly required>
+                            </div>
+                            <div class="col-md-9 col-3 my-1">
+                                <input type="button" class="btn btn-outline-primary" onclick="findaddress()" value="주소찾기">
+                            </div>
+                            <div class="col-md-6 my-1 pe-md-0">
+                                <input class="form-control" type="text" id="roadAddress" name="jroadad" placeholder="도로명주소" value="{{userad1}}" readonly>
+                            </div>
+                            <div class="col-md-6 my-1">
+                                <input class="form-control" type="text" id="jibunAddress" name="jjibunad" placeholder="지번주소" readonly>
+                            </div>
+                            <span id="guide" style="color:#999;display:none"></span>
+                            <div class="col-md-6 my-1 pe-md-0">
+                                <input class="form-control" type="text" id="detailAddress" name="jdetailad" placeholder="소재지 상세주소" value="{{userad3}}" required>
+                            </div>
+                            <div class="col-md-6 my-1">
+                                <input class="form-control" type="text" id="extraAddress" name="jextraad" placeholder="참고항목" value="{{userad4}}" readonly>
+                            </div>
+                        </div>
+                        <div class="tab-content mb-3" id="pills-tabContent">
+                            <div class="tab-pane fade {% if userexist.Utype == "normal" %}show active{% endif %}" id="pills-normal" role="tabpanel" aria-labelledby="pills-normal-tab">
+                                <input type="hidden" name="jmemtype" value="normal">
+                            </div>
+                            <div class="tab-pane fade {% if userexist.Utype == "company" %}show active{% endif %}" id="pills-company" role="tabpanel" aria-labelledby="pills-company-tab">
+                            </div>
+                        </div>
+                        <h3>추가정보</h3>
+                        <hr class="border border-dark">
+                        <label class="form-label my-2 fw-bold">창업업력</label>
+                        <div>
+                            <div class="form-check form-check-inline my-1">
+                                <input class="form-check-input" type="radio" id="prestep" name="jsubcombirthyear" value="1" {% if userexist.Ufoundyear == '1' %}checked{% endif %}>
+                                <label class="form-check-label" for="prestep">예비창업자</label>
+                            </div>
+                            <div class="form-check form-check-inline my-1">
+                                <input class="form-check-input" type="radio" id="firststep" name="jsubcombirthyear" value="2" {% if userexist.Ufoundyear == '2' %}checked{% endif %}>
+                                <label class="form-check-label" for="firststep">창업초기(3년 미만)</label>
+                            </div>
+                            <div class="form-check form-check-inline my-1">
+                                <input class="form-check-input" type="radio" id="leapstep" name="jsubcombirthyear" value="3" {% if userexist.Ufoundyear == '3' %}checked{% endif %}>
+                                <label class="form-check-label" for="leapstep">창업도약(4년 ~ 7년)</label>
+                            </div>
+                            <div class="form-check form-check-inline my-1">
+                                <input class="form-check-input" type="radio" id="overyear" name="jsubcombirthyear" value="4" {% if userexist.Ufoundyear == '4' %}checked{% endif %}>
+                                <label class="form-check-label" for="overyear">7년 이상</label>
+                            </div>
+                        </div>
+                        <label class="form-label my-2 fw-bold">창업분야</label>
+                        <div>
+                            <div class="form-check form-check-inline my-1">
+                                <input class="form-check-input" type="radio" id="HW" name="jcomdepartment" value="1" {% if userexist.Ucomdepart == '1' %}checked{% endif %}>
+                                <label class="form-check-label" for="HW">제조</label>
+                            </div>
+                            <div class="form-check form-check-inline my-1">
+                                <input class="form-check-input" type="radio" id="IT" name="jcomdepartment" value="2" {% if userexist.Ucomdepart == '2' %}checked{% endif %}>
+                                <label class="form-check-label" for="IT">IT</label>
+                            </div>
+                            <div class="form-check form-check-inline my-1">
+                                <input class="form-check-input" type="radio" id="Sales" name="jcomdepartment" value="3" {% if userexist.Ucomdepart == '3' %}checked{% endif %}>
+                                <label class="form-check-label" for="Sales">도소매</label>
+                            </div>
+                            <div class="form-check form-check-inline my-1">
+                                <input class="form-check-input" type="radio" id="Service" name="jcomdepartment" value="4" {% if userexist.Ucomdepart == '4' %}checked{% endif %}>
+                                <label class="form-check-label" for="Service">서비스</label>
+                            </div>
+                            <div class="form-check form-check-inline my-1">
+                                <input class="form-check-input" type="radio" id="Social" name="jcomdepartment" value="5" {% if userexist.Ucomdepart == '5' %}checked{% endif %}>
+                                <label class="form-check-label" for="Social">사회적기업</label>
+                            </div>
+                        </div>
+                        <div class="g-recaptcha my-4">구글리캡챠(자동등록방지) 적용 준비중</div>
+                        <div class="mt-3 d-grid gap-3 col-md-5 mx-auto">
+                            <input class="btn btn-outline-primary btn-lg" type="submit" value="정보수정">
+                        </div>
+                        <div class="d-grid gap-3 col-md-2 col-6 mt-5">
+                            <button class="btn btn-outline-danger" type="button" onclick="location.href='/memberout?next={{ req.GET.next }}';">회원탈퇴</button>
+                        </div>
+                    </div>
+                </fieldset>
+                <input type="hidden" name="next" value="{{ req.GET.next }}">
+            </form>
+        </section>
+        <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script><!--다음주소 API불러오기-->
+        <script>
+            
+            // 필수 항목들에 있는 라벨에 필수* 표시 부모와 조부모까지 뒤져서 확인하고 한번만 추가
+            document.querySelectorAll('input[required]').forEach((req) =>{
+                    //req.parent.$($('label')[0]).append("<span class='text-danger fw-bold'>*</span>");
+                    if (req.parentNode.getElementsByTagName("label")[0]){
+                        if (!req.parentNode.getElementsByTagName("label")[0].getElementsByTagName("span")[0]){
+                            req.parentNode.getElementsByTagName("label")[0].innerHTML += "<span class='text-danger fw-bold'>*</span>";
+                        }
+                    } else {
+                        if (!req.parentNode.parentNode.getElementsByTagName("label")[0].getElementsByTagName("span")[0]){
+                            req.parentNode.parentNode.getElementsByTagName("label")[0].innerHTML += "<span class='text-danger fw-bold'>*</span>";
+                        }
+                    }
+            })
+            // 비밀번호 재확인과 일치하는지 비교해 아니면 값을 맞추어 달라고 요청
+            function confirmpw(){
+                pwrecheck = RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[`!@#$%^&*()\-_=+\\\|\[\]{};:\'",.<>\/?`]).{5,20}$/);
+                if (pwrecheck.test($('#InputPassword').val())||pwrecheck.test($('#InputPasswordre').val())){
+                    $('#InputPassword').next().html("");
+                    if ($('#InputPassword').val() == $('#InputPasswordre').val()) {
+                        $('#InputPassword').removeClass('is-invalid');
+                        $('#InputPasswordre').removeClass('is-invalid');
+                        $('#InputPassword').addClass('is-valid');
+                        $('#InputPasswordre').addClass('is-valid');
+                        $('#InputPasswordre').next().removeClass('invalid-feedback');
+                        $('#InputPasswordre').next().addClass('valid-feedback');
+                        $('#InputPasswordre').next().html("비밀번호 입력과 재입력이 일치합니다.");
+                    }else {
+                        $('#InputPassword').removeClass('is-valid');
+                        $('#InputPasswordre').removeClass('is-valid');
+                        $('#InputPassword').addClass('is-invalid');
+                        $('#InputPasswordre').addClass('is-invalid');
+                        $('#InputPasswordre').next().removeClass('valid-feedback');
+                        $('#InputPasswordre').next().addClass('invalid-feedback');
+                        $('#InputPasswordre').next().html("비밀번호와 재입력이 일치하지 않습니다!");
+                        ;
+                    }
+                } else {
+                        $('#InputPassword').removeClass('is-valid');
+                        $('#InputPasswordre').removeClass('is-valid');
+                        $('#InputPassword').addClass('is-invalid');
+                        $('#InputPasswordre').addClass('is-invalid');
+                        $('#InputPassword').next().removeClass('valid-feedback');
+                        $('#InputPassword').next().addClass('invalid-feedback');
+                        $('#InputPassword').next().html("비밀번호 조건이 맞지 않습니다!(영문대문자, 소문자, 특수문자 5글자 이상)");
+                }
+            }
+            //국내 휴대전화와 국외 휴대전화구분하여 다르게 선택하면 다르게 표시
+            var krhtml = $("#jtelnation").nextAll();
+            var etchtml ="<input type='tel' class='form-control col-10' name='jtel' pattern='\\d{3,12}$' placeholder='3~12 Full Phone Number(int)' maxlength='12' value='{{userexist.Utel}}' required>";
+            function selectnation(th){
+                if ($(th).val() == "KR" ){
+                    $(th).nextAll().remove();
+                    $(th).parent().append(krhtml);
+                } else {
+                    krhtml.remove();
+                    $(th).parent().append(etchtml);
+                }
+            }
+            selectnation($("#jtelnation")); //휴대전화 국내인지 국외인지 구분하여 함수실행
+            //일반회원과 기업회원 변경시의 변경대응함수
+            function memtype(){
+                if ($('#pills-normal-tab').hasClass('active')){
+                    var tem = $('#Inputname').prev().html().replace("담당자","");
+                    $('#Inputname').prev().html(tem);
+                    $('#Inputname').attr('placeholder','가입하시는 분의 실명을 입력하세요.');
+                    var tem = $('#zipcode').parent().prev().html().replace("본사","");
+                    $('#zipcode').parent().prev().html(tem);
+                    $('#pills-company').html('');
+                    $('#pills-normal').html(`<input type="hidden" name="jmemtype" value="normal">`);
+                } else {
+                    $('#Inputname').prev().prepend('담당자');
+                    $('#Inputname').attr('placeholder','가입하시는 기업담당자분의 실명을 입력하세요.');
+                    $('#zipcode').parent().prev().prepend('본사');
+                    $('#pills-normal').html('');
+                    $('#pills-company').html(`
+                    <input type="hidden" name="jmemtype" value="company">
+                    <div class="row p-0">
+                        <div class="col-md-6 my-1 my-md-0">
+                            <label for="Inputcompanytype" class="form-label fw-bold">회사 유형<span class='text-danger fw-bold'>*</span></label>
+                            <select class="form-select" aria-label="Inputtel" id="Inputcompanytype" name="jcompanytype" required>
+                                <option value="1" {% if userexist.Ucomtype == '1' %}selected{% endif %}>개인사업자</option>
+                                <option value="2" {% if userexist.Ucomtype == '2' %}selected{% endif %}>(주)주식회사</option>
+                                <option value="3" {% if userexist.Ucomtype == '3' %}selected{% endif %}>주식회사(주)</option>
+                                <option value="4" {% if userexist.Ucomtype == '4' %}selected{% endif %}>유한회사</option>
+                                <option value="5" {% if userexist.Ucomtype == '5' %}selected{% endif %}>사단법인</option>
+                                <option value="6" {% if userexist.Ucomtype == '6' %}selected{% endif %}>재단법인</option>
+                                <option value="7" {% if userexist.Ucomtype == '7' %}selected{% endif %}>학교</option>
+                                <option value="8" {% if userexist.Ucomtype == '8' %}selected{% endif %}>공공기관</option>
+                                <option value="9" {% if userexist.Ucomtype == '9' %}selected{% endif %}>기타</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 my-1 my-md-0">
+                            <label for="companyname" class="form-label fw-bold">회사명<span class='text-danger fw-bold'>*</span></label>
+                            <input type="text" class="form-control" id="companyname" name="jcname" placeholder="기업명을 한글로 입력하세요." value="{{userexist.Ucomname}}" maxlength="15" required>
+                        </div>
+                    </div>
+                    <div class="my-3">
+                        <label for="Inputbid" class="form-label fw-bold">사업자등록번호<span class='text-danger fw-bold'>*</span></label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="Inputbid1" name="jbid1" pattern="\\d{3}$" maxlength="3" onchange="bidoverlapcheck();" value="{{userexist.Ucombid|slice:":3"}}" readonly>
+                            <span class="mx-2 mt-2"> - </span>
+                            <input type="text" class="form-control" id="Inputbid2" name="jbid2" pattern="\\d{2}$" maxlength="2" onchange="bidoverlapcheck();" value="{{userexist.Ucombid|slice:"4:6"}}" readonly>
+                            <span class="mx-2 mt-2"> - </span>
+                            <input type="text" class="form-control" id="Inputbid3" name="jbid3" style="width:8vh;" pattern="\\d{5}$" maxlength="5" onchange="bidoverlapcheck();" value="{{userexist.Ucombid|slice:"7:12"}}" readonly>
+                        </div>
+                    </div>
+                    <div class="row p-0">
+                        <div class="col-md-4 my-1 my-md-0">
+                            <label for="foundername" class="form-label fw-bold">대표자명<span class='text-danger fw-bold'>*</span></label>
+                            <input type="text" class="form-control" id="foundername" name="jfoundername" placeholder="대표자명을 적어주세요." pattern="^[가-힣]{2,12}$" minlength="2" maxlength="12" value="{{userexist.Ufoundername}}" required>
+                        </div>
+                        <div class="col-md-4 my-1 my-md-0">
+                            <label for="companytype" class="form-label fw-bold">업태</label>
+                            <input type="text" class="form-control" id="companytype" name="jcompanystyle" placeholder="업태를 입력해주세요." pattern="^[가-힣\\s]{0,20}$" value="{{userexist.Ucomstyle}}" maxlength="20">
+                        </div>
+                        <div class="col-md-4 my-1 my-md-0">
+                            <label for="companySectors" class="form-label fw-bold">업종</label>
+                            <input type="text" class="form-control" id="companySectors" name="jcomsector" placeholder="종목(업종)을 입력하세요." pattern="^[가-힣\\s]{0,20}$" value="{{userexist.Ucomsector}}" maxlength="20">
+                        </div>
+                    </div>
+                    <div class="row my-3 p-0">
+                        <div class="col-md">
+                            <label for="Inputcombirth" class="form-label fw-bold">회사설립일</label>
+                            <input type="date" class="form-control" id="nputcombirth" name="jcombirth" placeholder="회사설립년월일을 입력하세요.(예:19000101)" min="1930-01-01" value="{{userexist.Ucombrith|date:"Y-m-d"}}">
+                        </div>
+                        <div class="col-md">
+                            <label for="Inputfounderbirth" class="form-label fw-bold">창업자 생년월일</label>
+                            <input type="date" class="form-control" id="Inputfounderbirth" name="jfounderbirth" placeholder="창업자의 생년월일을 입력하세요.(예:19000101)" min="1930-01-01" max="2010-12-31" value="{{userexist.Ufounderbrith|date:"Y-m-d"}}">
+                        </div>
+                        <div class="col-md">
+                            <label for="Inputfoundergender" class="form-label fw-bold">창업자 성별</label>
+                            <select class="form-select" aria-label="Inputtel" id="Inputfoundergender" name="jfoundergender">
+                                <option value="">성별을 선택하세요.</option>
+                                <option value="M" {% if userexist.Ufoundergender == 'M' %} selected{% endif %}>남성</option>
+                                <option value="W" {% if userexist.Ufoundergender == 'W' %} selected{% endif %}>여성</option>
+                            </select>
+                        </div>
+                    </div>
+                    `);
+                }
+            }
+            memtype(); //창 로드되자마자 실행
+            confirmpw(); //창 로드되자마자 암호비교
+            //다음주소 API코드 사용
+            function findaddress() {
+                new daum.Postcode({
+                    oncomplete: function(data) {
+                        // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                        // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+                        // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                        var roadAddr = data.roadAddress; // 도로명 주소 변수
+                        var extraRoadAddr = ''; // 참고 항목 변수
+
+                        // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                        // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                        if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                            extraRoadAddr += data.bname;
+                        }
+                        // 건물명이 있고, 공동주택일 경우 추가한다.
+                        if(data.buildingName !== '' && data.apartment === 'Y'){
+                        extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                        }
+                        // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                        if(extraRoadAddr !== ''){
+                            extraRoadAddr = ' (' + extraRoadAddr + ')';
+                        }
+
+                        // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                        document.getElementById('zipcode').value = data.zonecode;
+                        document.getElementById("roadAddress").value = roadAddr;
+                        document.getElementById("jibunAddress").value = data.jibunAddress;
+                        
+                        // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
+                        if(roadAddr !== ''){
+                            document.getElementById("extraAddress").value = extraRoadAddr;
+                        } else {
+                            document.getElementById("extraAddress").value = '';
+                        }
+
+                        var guideTextBox = document.getElementById("guide");
+                        // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
+                        if(data.autoRoadAddress) {
+                            var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
+                            guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
+                            guideTextBox.style.display = 'block';
+
+                        } else if(data.autoJibunAddress) {
+                            var expJibunAddr = data.autoJibunAddress;
+                            guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
+                            guideTextBox.style.display = 'block';
+                        } else {
+                            guideTextBox.innerHTML = '';
+                            guideTextBox.style.display = 'none';
+                        }
+                    }
+                }).open();
+            }
+            //폼 제출시 이상여부 체크 html에서 대부분 필수항목 패턴으로 거르므로 만약의 경우만 대비
+            function isValid(){
+                if ($('#InputPasswordre').hasClass('is-invalid')){
+                    alert("비밀번호 확인을 비밀번호와 맞추어서 제출바랍니다.");
+                    return false;
+                }
+                if ($('#zipcode').val()==""){
+                    alert("주소찾기를 통해 주소를 입력하세요.");
+                    return false;
+                }
+                return true;
+            }
+            //에러메세지가 있을경우 리다이렉트 및 메세지 출력
+            {% if msg %}
+                alert( '{{msg}}' + ' 다시 작성해주세요.');
+                location.href="/mbinfoedit?next={{ req.GET.next }}";
+            {% endif %}
+        </script>
+        {% include 'footer.html' %}
+    </body>
+</html>

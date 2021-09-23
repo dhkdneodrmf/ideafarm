@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+    {% include 'head.html' %}
+    <body>
+        <header class="container-md p-0">
+            {% include 'tnb.html' %}
+        </header>
+        <section class="container-sm my-4 p-2">
+            <fieldset class="row justify-content-center">
+                <div class="col-lg-6 boxshadow p-5">
+                        <h2 class="text-center">창업에 도움되는<br>지식 연결 플랫폼</h2>    
+                        <legend class="col-form-label text-center gray">당신의 첫 사업파트너</legend>
+                        {% if result %}
+                        <legend class="col-form-label text-center mb-3 text-success fs-4">당신이 입력한 정보와 일치하는 아이디는 '{{result.UID}}' 입니다.</legend>
+                        <div class="d-grid gap-2 mt-4">
+                            <input class="btn btn-primary btn-lg" type="button" onclick="location.href='{% url 'login' %}?next={{req.path}}';" value="로그인하기">
+                        </div>
+                        {% else %}
+                        <legend class="col-form-label text-center mb-1 text-danger fs-4">{{msg}}</legend>
+                        <p class="text-center">회원이 아니라면 아래 회원가입을 눌러주세요.</p>
+                        <div class="d-grid gap-2 mt-4">
+                            <input class="btn btn-primary btn-lg" type="button" onclick="location.href='{% url 'join' %}?next={{req.path}}';" value="회원가입">
+                        </div>
+                        {% endif %}
+                        <div class="d-flex justify-content-center mt-4">
+                            <a href="/findid?next={{req.GET.next}}">아이디 찾기</a>
+                            <div class="vr mx-5"></div>
+                            <a href="/findpw?next={{req.GET.next}}">비밀번호 찾기</a>
+                        </div>
+                </div>
+            </fieldset>
+        </section>
+        {% include 'footer.html' %}
+    </body>
+</html>

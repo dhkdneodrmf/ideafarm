@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+    {% include 'head.html' %}
+    <body>
+        <header class="container-md p-0">
+            {% include 'tnb.html' %}
+        </header>
+        <section class="container-sm my-4 p-2">
+            <form action="/memberoutcomp?next={{req.GET.next}}" method="POST">
+                {% csrf_token %}
+                <fieldset class="row justify-content-center">
+                    <div class="col-lg-6 boxshadow p-5">
+                            <h2 class="text-center">창업에 도움되는<br>지식 연결 플랫폼</h2>    
+                            <legend class="col-form-label text-center mb-3 gray">저희 아이디어팜을 탈퇴하셔서 아쉽습니다.</legend>
+                            <label class="form-label my-2 fw-bold">탈퇴사유를 간단히 입력해주세요.</label>
+                            <textarea class="form-control" style="resize:none;" name="exitreason" rows="5" minlength="5" required></textarea>
+                            <legend class="col-form-label text-center my-3 gray">비밀번호를 한번 더 입력해주세요.</legend>
+                            <div class="form-floating mb-3">
+                                <input type="password" class="form-control" id="floatingPassword" name="epw" placeholder="패스워드 입력" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[`!@#$%^&amp;*()-_=+\\\|\[\]\{\};:'&quot;,.<>\/?`]).{5,20}$" required>
+                                <label for="floatingPassword">패스워드</label>
+                            </div>
+                            <div class="d-grid gap-2 mt-4">
+                                <input class="btn btn-danger" type="submit" value="탈퇴하기">
+                            </div>
+                    </div>
+                </fieldset>
+                <input type="hidden" name="next" value="{{ req.GET.next }}">
+            </form>
+            {% if msg %}
+            <script>
+                alert("{{msg}}");
+                location.href="/memberout?next={{ req.GET.next }}";
+            </script>
+            {% endif %}
+        </section>
+        {% include 'footer.html' %}
+    </body>
+</html>

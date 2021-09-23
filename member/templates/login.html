@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+    {% include 'head.html' %}
+    <body>
+        <header class="container-md p-0">
+            {% include 'tnb.html' %}
+        </header>
+        <section class="container-sm my-4 p-2">
+            <form action="/logincheck?next={{req.GET.next}}" method="POST">
+                {% csrf_token %}
+                <fieldset class="row justify-content-center">
+                    <div class="col-lg-6 boxshadow p-5">
+                            <h2 class="text-center">창업에 도움되는<br>지식 연결 플랫폼</h2>    
+                            <legend class="col-form-label text-center mb-3 gray">당신의 첫 사업파트너</legend>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="floatingInputID" name="eid" placeholder="아이디 입력" required>
+                                <label for="floatingInputID">아이디</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="password" class="form-control" id="floatingPassword" name="epw" placeholder="패스워드 입력" required>
+                                <label for="floatingPassword">패스워드</label>
+                            </div>
+                            
+                            <div class="d-grid gap-2 mt-4">
+                                <input class="btn btn-primary btn-lg" type="submit" value="로그인">
+                            </div>
+                            <div class="d-flex justify-content-center my-4">
+                                <a href="/findid?next={{req.GET.next}}">아이디 찾기</a>
+                                <div class="vr mx-5"></div>
+                                <a href="/findpw?next={{req.GET.next}}">비밀번호 찾기</a>
+                            </div>
+                            <hr class="hr mt-5">
+                            <div class="d-flex justify-content-evenly my-4">
+                                <div class="fw-bold">
+                                    지금 회원가입하면<br><span class="text-info">웰컴 쿠폰 100% 지급</span>
+                                </div>
+                                <button type="button" class="btn btn-outline-info px-5" onclick="javascript:location.href='{% url 'join' %}?next={{req.path}}';">회원가입</button>
+                            </div>
+                    </div>
+                </fieldset>
+                <input type="hidden" name="next" value="{{ req.GET.next }}">
+            </form>
+            {% if msg %}
+            <script>
+                alert("{{msg}}");
+                location.href="{% url 'login' %}?next={{ req.GET.next }}";
+            </script>
+            {% endif %}
+        </section>
+        {% include 'footer.html' %}
+    </body>
+</html>

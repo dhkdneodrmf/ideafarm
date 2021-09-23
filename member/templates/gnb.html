@@ -1,0 +1,36 @@
+{% load static %}
+            <nav class="navbar navbar-expand-xl navbar-light my-1">
+                <div class="container-fluid p-0">
+                    <a class="navbar-brand" href="/"><img src="{% static 'farm/아이디어팜_로고.png' %}"></a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <form class="d-flex my-2" action="/product/search" method="GET">
+                            {% csrf_token %}
+                            <input class="form-control col-xxl-2 mt-2" type="search" placeholder="상품을 검색하세요." aria-label="Search" id="Serach" required>
+                            <button class="btn" type="submit" style="position:relative;right:40px;"><img src="{% static 'magnifying-glass.png' %}" ></button>
+                        </form>
+                        <ul class="navbar-nav ms-auto my-2 mt-xl-3 mb-xl-0">
+                            <li class="nav-item">
+                                <strong><a class="nav-link F2" href="/product/best">베스트</a></strong>
+                            </li>
+                            <li class="nav-item">
+                                <strong><a class="nav-link F2" href="/product/new">신상품</a></strong>
+                            </li>
+                            <li class="nav-item">
+                                <strong><a class="nav-link F2" href="/product/knowcontents">지식콘텐츠</a></strong>
+                            </li>
+                            <li class="nav-item">
+                                <strong><a class="nav-link F2" href="/product/handmade">핸드메이드</a></strong>
+                            </li>
+                            <li class="nav-item">
+                                <strong><a class="nav-link F2" href="/product/ideaproduct">아이디어상품</a></strong>
+                            </li>
+                            <li class="nav-item">
+                                <strong><a class="nav-link F2" href="/product/review">구매후기</a></strong>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
