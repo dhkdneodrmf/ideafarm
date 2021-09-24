@@ -3728,3 +3728,215 @@ September 23, 2021 - 14:33:41
 Django version 3.2.6, using settings 'ideafarm.settings'
 Starting development server at http://0.0.0.0:7000/
 Quit the server with CONTROL-C.
+/root/dhkdn_project/ideafarm/member/models.py changed, reloading.
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+September 23, 2021 - 17:13:37
+Django version 3.2.6, using settings 'ideafarm.settings'
+Starting development server at http://0.0.0.0:7000/
+Quit the server with CONTROL-C.
+Not Found: /product/knowcontents
+[23/Sep/2021 18:57:22] "GET /product/knowcontents HTTP/1.1" 404 5008
+[23/Sep/2021 19:04:51] "GET / HTTP/1.1" 200 58132
+[23/Sep/2021 19:04:52] "GET /static/favicon.ico HTTP/1.1" 200 1150
+[23/Sep/2021 19:11:19] code 400, message Bad request syntax ('\x03\x00\x00\x13\x0eà\x00\x00\x00\x00\x00\x01\x00\x08\x00\x03\x00\x00\x00')
+[23/Sep/2021 19:11:19] "  à          " 400 -
+[23/Sep/2021 22:39:54] "GET /join?next=/ HTTP/1.1" 200 88230
+[23/Sep/2021 22:48:09] "GET / HTTP/1.1" 200 58132
+[23/Sep/2021 22:48:09,188] - Broken pipe from ('162.142.125.128', 27532)
+
+[23/Sep/2021 22:53:39] "GET / HTTP/1.1" 200 58132
+[23/Sep/2021 22:53:40,292] - Broken pipe from ('162.142.125.128', 62340)
+
+[23/Sep/2021 23:13:39] "GET /join?next=/join HTTP/1.1" 200 88230
+[24/Sep/2021 08:29:42] "GET / HTTP/1.1" 200 58132
+Not Found: /favicon.ico
+[24/Sep/2021 08:29:44] "GET /favicon.ico HTTP/1.1" 404 4974
+[24/Sep/2021 13:10:58] "GET / HTTP/1.1" 200 58132
+/root/dhkdn_project/ideafarm/member/models.py changed, reloading.
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+September 24, 2021 - 13:18:35
+Django version 3.2.6, using settings 'ideafarm.settings'
+Starting development server at http://0.0.0.0:7000/
+Quit the server with CONTROL-C.
+/root/dhkdn_project/ideafarm/member/views.py changed, reloading.
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+September 24, 2021 - 13:22:23
+Django version 3.2.6, using settings 'ideafarm.settings'
+Starting development server at http://0.0.0.0:7000/
+Quit the server with CONTROL-C.
+[24/Sep/2021 13:23:34] "GET / HTTP/1.1" 200 58132
+/root/dhkdn_project/ideafarm/member/models.py changed, reloading.
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+September 24, 2021 - 13:38:08
+Django version 3.2.6, using settings 'ideafarm.settings'
+Starting development server at http://0.0.0.0:7000/
+Quit the server with CONTROL-C.
+[24/Sep/2021 13:49:04] "GET / HTTP/1.1" 200 58132
+[24/Sep/2021 13:49:04] "GET /static/favicon.ico HTTP/1.1" 200 1150
+/root/dhkdn_project/ideafarm/ideafarm/settings.py changed, reloading.
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+September 24, 2021 - 14:05:27
+Django version 3.2.6, using settings 'ideafarm.settings'
+Starting development server at http://0.0.0.0:7000/
+Quit the server with CONTROL-C.
+/root/dhkdn_project/ideafarm/ideafarm/settings.py changed, reloading.
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+September 24, 2021 - 14:20:08
+Django version 3.2.6, using settings 'ideafarm.settings'
+Starting development server at http://0.0.0.0:7000/
+Quit the server with CONTROL-C.
+/root/dhkdn_project/ideafarm/member/urls.py changed, reloading.
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+September 24, 2021 - 14:20:23
+Django version 3.2.6, using settings 'ideafarm.settings'
+Starting development server at http://0.0.0.0:7000/
+Quit the server with CONTROL-C.
+/root/dhkdn_project/ideafarm/ideafarm/urls.py changed, reloading.
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+September 24, 2021 - 14:25:36
+Django version 3.2.6, using settings 'ideafarm.settings'
+Starting development server at http://0.0.0.0:7000/
+Quit the server with CONTROL-C.
+/root/dhkdn_project/ideafarm/member/models.py changed, reloading.
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+September 24, 2021 - 14:25:53
+Django version 3.2.6, using settings 'ideafarm.settings'
+Starting development server at http://0.0.0.0:7000/
+Quit the server with CONTROL-C.
+/root/dhkdn_project/ideafarm/ideafarm/settings.py changed, reloading.
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+September 24, 2021 - 14:27:33
+Django version 3.2.6, using settings 'ideafarm.settings'
+Starting development server at http://0.0.0.0:7000/
+Quit the server with CONTROL-C.
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+September 24, 2021 - 23:39:38
+Django version 3.2.6, using settings 'ideafarm.settings'
+Starting development server at http://0.0.0.0:7000/
+Quit the server with CONTROL-C.
+[24/Sep/2021 23:39:44] "GET / HTTP/1.1" 200 58132
+[24/Sep/2021 23:39:47] "GET /static/favicon.ico HTTP/1.1" 200 1150
+[24/Sep/2021 23:39:52] "GET /admin HTTP/1.1" 301 0
+[24/Sep/2021 23:39:52] "GET /admin/ HTTP/1.1" 302 0
+[24/Sep/2021 23:39:53] "GET /admin/login/?next=/admin/ HTTP/1.1" 200 2234
+[24/Sep/2021 23:39:53] "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 304 0
+[24/Sep/2021 23:39:53] "GET /static/admin/css/login.css HTTP/1.1" 200 939
+[24/Sep/2021 23:39:53] "GET /static/admin/css/responsive.css HTTP/1.1" 304 0
+[24/Sep/2021 23:39:53] "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 200 1360
+[24/Sep/2021 23:39:53] "GET /static/admin/css/base.css HTTP/1.1" 304 0
+[24/Sep/2021 23:39:53] "GET /static/admin/css/fonts.css HTTP/1.1" 200 423
+[24/Sep/2021 23:39:54] "GET /static/admin/fonts/Roboto-Light-webfont.woff HTTP/1.1" 200 85692
+[24/Sep/2021 23:39:54] "GET /static/admin/fonts/Roboto-Regular-webfont.woff HTTP/1.1" 200 85876
+Not Found: /favicon.ico
+[24/Sep/2021 23:39:54] "GET /favicon.ico HTTP/1.1" 404 5217
+[24/Sep/2021 23:40:00] "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+[24/Sep/2021 23:40:00] "GET /admin/ HTTP/1.1" 200 6544
+[24/Sep/2021 23:40:00] "GET /static/admin/css/dashboard.css HTTP/1.1" 200 380
+[24/Sep/2021 23:40:00] "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 380
+[24/Sep/2021 23:40:00] "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 200 331
+[24/Sep/2021 23:40:00] "GET /static/admin/fonts/Roboto-Bold-webfont.woff HTTP/1.1" 200 86184
+[24/Sep/2021 23:40:07] "GET /admin/member/exituser/ HTTP/1.1" 200 6529
+[24/Sep/2021 23:40:07] "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
+[24/Sep/2021 23:40:07] "GET /static/admin/js/actions.js HTTP/1.1" 200 7664
+[24/Sep/2021 23:40:07] "GET /static/admin/css/changelists.css HTTP/1.1" 304 0
+[24/Sep/2021 23:40:07] "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 5984
+[24/Sep/2021 23:40:07] "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
+[24/Sep/2021 23:40:07] "GET /admin/jsi18n/ HTTP/1.1" 200 8330
+[24/Sep/2021 23:40:07] "GET /static/admin/js/urlify.js HTTP/1.1" 200 7902
+[24/Sep/2021 23:40:07] "GET /static/admin/js/core.js HTTP/1.1" 200 5698
+[24/Sep/2021 23:40:07] "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 200 232381
+[24/Sep/2021 23:40:07] "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 287630
+[24/Sep/2021 23:40:08] "GET /static/admin/img/tooltag-add.svg HTTP/1.1" 304 0
+[24/Sep/2021 23:40:11] "GET /admin/member/term/ HTTP/1.1" 200 7742
+[24/Sep/2021 23:40:11] "GET /admin/jsi18n/ HTTP/1.1" 200 8330
+[24/Sep/2021 23:40:14] "GET /admin/member/user/ HTTP/1.1" 200 8128
+[24/Sep/2021 23:40:14] "GET /admin/jsi18n/ HTTP/1.1" 200 8330
+[24/Sep/2021 23:40:18] "GET /admin/member/user/1/change/ HTTP/1.1" 200 20671
+[24/Sep/2021 23:40:18] "GET /static/admin/css/forms.css HTTP/1.1" 304 0
+[24/Sep/2021 23:40:18] "GET /static/admin/js/calendar.js HTTP/1.1" 304 0
+[24/Sep/2021 23:40:18] "GET /static/admin/js/admin/DateTimeShortcuts.js HTTP/1.1" 304 0
+[24/Sep/2021 23:40:18] "GET /admin/jsi18n/ HTTP/1.1" 200 8330
+[24/Sep/2021 23:40:18] "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 304 0
+[24/Sep/2021 23:40:18] "GET /static/admin/js/change_form.js HTTP/1.1" 304 0
+[24/Sep/2021 23:40:18] "GET /static/admin/css/widgets.css HTTP/1.1" 304 0
+[24/Sep/2021 23:40:18] "GET /static/admin/img/icon-calendar.svg HTTP/1.1" 304 0
+[24/Sep/2021 23:40:21] "GET /admin/member/user/ HTTP/1.1" 200 8128
+[24/Sep/2021 23:40:25] "GET /admin/member/prod_categ_big/ HTTP/1.1" 200 6576
+[24/Sep/2021 23:40:25] "GET /admin/jsi18n/ HTTP/1.1" 200 8330
+[24/Sep/2021 23:40:31] "GET /admin/member/prod_categ_mid/ HTTP/1.1" 200 6576
+[24/Sep/2021 23:40:31] "GET /admin/jsi18n/ HTTP/1.1" 200 8330
+[24/Sep/2021 23:40:33] "GET /admin/member/prod_categ_mid/add/ HTTP/1.1" 200 10703
+[24/Sep/2021 23:40:33] "GET /static/ckeditor/ckeditor-init.js HTTP/1.1" 200 1498
+[24/Sep/2021 23:40:33] "GET /admin/jsi18n/ HTTP/1.1" 200 8330
+[24/Sep/2021 23:40:34] "GET /static/ckeditor/ckeditor/ckeditor.js HTTP/1.1" 200 746737
+[24/Sep/2021 23:40:34] "GET /static/ckeditor/ckeditor/config.js?t=L4KA HTTP/1.1" 200 338
+[24/Sep/2021 23:40:34] "GET /static/ckeditor/ckeditor/skins/moono-lisa/editor.css?t=L4KA HTTP/1.1" 200 48483
+[24/Sep/2021 23:40:34] "GET /static/ckeditor/ckeditor/lang/ko.js?t=L4KA HTTP/1.1" 200 20013
+[24/Sep/2021 23:40:34] "GET /static/ckeditor/ckeditor/styles.js?t=L4KA HTTP/1.1" 200 5579
+[24/Sep/2021 23:40:34] "GET /static/ckeditor/ckeditor/skins/moono-lisa/icons.png?t=cae20318d4 HTTP/1.1" 200 12533
+[24/Sep/2021 23:40:34] "GET /static/ckeditor/ckeditor/contents.css?t=L4KA HTTP/1.1" 200 3094
+[24/Sep/2021 23:40:34] "GET /static/ckeditor/ckeditor/plugins/scayt/dialogs/dialog.css?t=L4KA HTTP/1.1" 200 419
+[24/Sep/2021 23:40:34] "GET /static/ckeditor/ckeditor/plugins/copyformatting/styles/copyformatting.css HTTP/1.1" 200 1513
+[24/Sep/2021 23:40:35] "GET /static/ckeditor/ckeditor/plugins/tableselection/styles/tableselection.css HTTP/1.1" 200 1145
+[24/Sep/2021 23:40:35] "GET /static/ckeditor/ckeditor/plugins/scayt/skins/moono-lisa/scayt.css?t=L4KA HTTP/1.1" 200 381
+[24/Sep/2021 23:40:35] "GET /static/ckeditor/ckeditor/plugins/dialog/styles/dialog.css HTTP/1.1" 200 249
+[24/Sep/2021 23:40:38] "GET /admin/member/prod_categ_big/ HTTP/1.1" 200 6576
+[24/Sep/2021 23:40:38] "GET /admin/jsi18n/ HTTP/1.1" 200 8330
+[24/Sep/2021 23:40:40] "GET /admin/member/prod_categ_big/add/ HTTP/1.1" 200 9609
+[24/Sep/2021 23:40:40] "GET /admin/jsi18n/ HTTP/1.1" 200 8330
+[24/Sep/2021 23:41:51] "GET /static/ckeditor/ckeditor/skins/moono-lisa/dialog.css?t=L4KA HTTP/1.1" 200 13708
+[24/Sep/2021 23:41:51] "GET /static/ckeditor/ckeditor/plugins/image/dialogs/image.js?t=L4KA HTTP/1.1" 200 21531
+[24/Sep/2021 23:41:51] "GET /static/ckeditor/ckeditor/skins/moono-lisa/images/close.png HTTP/1.1" 200 615
+[24/Sep/2021 23:41:51] "GET /static/ckeditor/ckeditor/skins/moono-lisa/images/lock.png HTTP/1.1" 200 506
+[24/Sep/2021 23:41:51] "GET /static/ckeditor/ckeditor/skins/moono-lisa/images/refresh.png HTTP/1.1" 200 757
+[24/Sep/2021 23:42:03] "GET /ckeditor/browse/?CKEditor=id_Intro&CKEditorFuncNum=3&langCode=ko HTTP/1.1" 200 7258
+[24/Sep/2021 23:42:03] "GET /static/ckeditor/galleriffic/css/basic.css HTTP/1.1" 200 1043
+[24/Sep/2021 23:42:03] "GET /static/ckeditor/ckeditor_uploader/admin_base.css HTTP/1.1" 200 1481
+[24/Sep/2021 23:42:03] "GET /static/ckeditor/galleriffic/css/galleriffic-2.css HTTP/1.1" 200 3166
+[24/Sep/2021 23:42:03] "GET /static/ckeditor/galleriffic/js/jquery.galleriffic.js HTTP/1.1" 200 33266
+[24/Sep/2021 23:42:03] "GET /static/ckeditor/galleriffic/js/jquery-1.3.2.js HTTP/1.1" 200 120619
+[24/Sep/2021 23:42:03] "GET /static/ckeditor/galleriffic/js/jquery.opacityrollover.js HTTP/1.1" 200 937
+[24/Sep/2021 23:42:03] "GET /static/ckeditor/galleriffic/css/loader.gif HTTP/1.1" 200 10453
+[24/Sep/2021 23:43:28] "POST /ckeditor/upload/ HTTP/1.1" 200 84
+[24/Sep/2021 23:43:28] "GET /media/uploads/2021/09/24/cat.jpg HTTP/1.1" 200 57322
+[24/Sep/2021 23:43:28] "GET /media/uploads/2021/09/24/cat.jpg HTTP/1.1" 304 0
+[24/Sep/2021 23:43:36] "GET /media/uploads/2021/09/24/cat.jpg HTTP/1.1" 304 0
+[24/Sep/2021 23:44:17] "POST /admin/member/prod_categ_big/add/ HTTP/1.1" 302 0
+[24/Sep/2021 23:46:14] "GET /admin/member/prod_categ_big/ HTTP/1.1" 200 8060
+[24/Sep/2021 23:47:00] "GET /admin/jsi18n/ HTTP/1.1" 200 8330
+[24/Sep/2021 23:47:11] "GET /static/admin/img/icon-yes.svg HTTP/1.1" 200 436
+[24/Sep/2021 23:47:17] "GET /admin/member/prod_categ_mid/ HTTP/1.1" 200 6576
+[24/Sep/2021 23:47:26] "GET /admin/jsi18n/ HTTP/1.1" 200 8330

@@ -20,4 +20,5 @@ urlpatterns = [
     path('findidcheck',views.findidchk), #아이디 찾기 결과 페이지 이동 라우팅
     path('findpwcheck',views.findpwchk), #아이디 찾기 결과 페이지 이동 라우팅
     path('mypage',views.mypagedisplay, name='mypage'), #마이 페이지 이동 라우팅
+    
 ] 

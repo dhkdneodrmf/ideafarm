@@ -15,8 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('member.urls')),
+    path('', include('member.urls')), #인덱스의 경로 구성
+    path('ckeditor/', include('ckeditor_uploader.urls')), #Ckediter 이미지 파일 업로드 경로
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -234,7 +234,7 @@ def mboutcomp(req):
     if req.session.get('uid') and req.method=='POST':
         try:
             outuser=User.objects.get(UID=req.session.get('uid'), UPW=req.POST.get('epw'))
-            useracrive=Exituser(Utype=outuser.Utype,UID=outuser.UID,UPW=outuser.UPW,Unick=outuser.Unick,Uname=outuser.Uname,Ubrith=outuser.Ubrith,Ugender=outuser.Ugender,Unation=outuser.Unation,Utel=outuser.Utel,Uemail=outuser.Uemail,Upostcode=outuser.Upostcode,Uaddress=outuser.Uaddress,Usmsrecive=outuser.Usmsrecive,Umailrecive=outuser.Umailrecive,Ucomtype=outuser.Ucomtype,Ucomname=outuser.Ucomname,Ucombid=outuser.Ucombid,Ufoundername=outuser.Ufoundername,Ucomstyle=outuser.Ucomstyle,Ucomsector=outuser.Ucomstyle,Ucombrith=outuser.Ucombrith,Ufounderbrith=outuser.Ufounderbrith,Ufoundergender=outuser.Ufoundergender,Ufoundyear=outuser.Ufoundyear,Ucomdepart=outuser.Ucomdepart,Uregisterday=outuser.Uregisterday,reason=req.POST.get('exitreason'))
+            useracrive=Exituser(Utype=outuser.Utype,Uname=outuser.Uname,Ubrith=outuser.Ubrith,Ugender=outuser.Ugender,Unation=outuser.Unation,Upostcode=outuser.Upostcode,Uaddress=outuser.Uaddress,Ucomtype=outuser.Ucomtype,Ucomname=outuser.Ucomname,Ufoundername=outuser.Ufoundername,Ucomstyle=outuser.Ucomstyle,Ucomsector=outuser.Ucomstyle,Ucombrith=outuser.Ucombrith,Ufounderbrith=outuser.Ufounderbrith,Ufoundergender=outuser.Ufoundergender,Ufoundyear=outuser.Ufoundyear,Ucomdepart=outuser.Ucomdepart,Uregisterday=outuser.Uregisterday,reason=req.POST.get('exitreason'))
             useracrive.save()
             req.session.pop('uid')
             outuser.delete()
