@@ -20,5 +20,8 @@ urlpatterns = [
     path('findidcheck',views.findidchk), #아이디 찾기 결과 페이지 이동 라우팅
     path('findpwcheck',views.findpwchk), #아이디 찾기 결과 페이지 이동 라우팅
     path('mypage',views.mypagedisplay, name='mypage'), #마이 페이지 이동 라우팅
-    
+    path('product/<str:catbig>',views.poductview), #카테고리 및 상품 페이지 이동 라우팅
+    path('product/<str:catbig>/<str:catmid>',views.poductview), #카테고리 및 상품 페이지 이동 라우팅
+    path('product/<str:catbig>/<str:catmid>/<str:catsma>',views.poductview), #카테고리 및 상품 페이지 이동 라우팅
+    path('product/<str:catbig>/<str:catmid>/<str:catsma>/<str:prodname>',views.poductview), #카테고리 및 상품 페이지 이동 라우팅
 ] 

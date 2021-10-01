@@ -1,16 +1,19 @@
+from os import name
 from django.db.models.fields import NullBooleanField
+from django.db.models.query import prefetch_related_objects
 from django.shortcuts import redirect, render
-from .models import User, Term, Exituser
+from .models import Prod_Categ_mid, Prod_Categ_sma, Product, User, Term, Exituser, Prod_Categ_big
 from django.contrib import messages
 import re
 #from django.http import HttpResponse
 # Create your views here.
 def index(req): #메인 페이지 구동함수
+    catbig=Prod_Categ_big.objects.order_by()
     if req.session.get('uid'):
         loggeduser=User.objects.get(UID=req.session['uid'])
-        return render(req, 'main.html',{'req':req,'userexist':loggeduser})
+        return render(req, 'main.html',{'req':req,'userexist':loggeduser,'catbig':catbig})
     else:
-        return render(req, 'main.html',{'req':req})
+        return render(req, 'main.html',{'req':req,'catbig':catbig})
 
 def login(req): #로그인 페이지 구동함수
     if req.session.get('uid'):
@@ -297,9 +300,47 @@ def findpwchk(req): #비밀번호 찾기 결과 페이지 구동함수
         return render(req, 'findpw.html',{'msg':'정상적인 접근이 아닙니다.','req':req})
 
 def mypagedisplay(req): #로그인 되어있는 경우 마이페이지 표시
+    catbig=Prod_Categ_big.objects.order_by()
     if req.session.get('uid'):
         loggeduser=User.objects.get(UID=req.session.get('uid'))
-        return render(req, 'mypage.html',{'req':req,'userexist':loggeduser})
+        return render(req, 'mypage.html',{'req':req,'userexist':loggeduser,'catbig':catbig})
     else:
         messages.warning(req, '마이 페이지에 표시할 정보가 없습니다. 메인페이지로 이동합니다.')
         return redirect('/')
+
+def poductview(req, catbig,catmid="",catsma="",prodname=""):
+    tester=Prod_Categ_big.objects.filter(Code=catbig)
+    if tester:
+        tester2=Prod_Categ_mid.objects.filter(Code=catmid)
+        tester3=Prod_Categ_sma.objects.filter(Code=catsma)
+        tester4=Product.objects.filter(Code=prodname)
+        if req.session.get('uid'):
+            viewuser=User.objects.get(UID=req.session.get('uid'))
+        else:
+            viewuser=''
+        catbig2=Prod_Categ_big.objects.order_by()
+        catbig3=Prod_Categ_big.objects.get(Code=catbig)
+        catmid2=catbig3.prod_categ_mid_set.all()
+        #catsma2=Prod_Categ_sma.objects.filter() #무조건 모든 해당하는 소분류를 소환함.
+        #for record in catmid2:
+            #print(record)
+            #print(record.prod_categ_sma_set.all())
+            #catsma2=catsma2 | record.prod_categ_sma_set.all()
+            #catsma2.append(record.prod_categ_sma_set.all())
+        #print(catsma2)
+        if catmid!="" and tester2:
+            obj=Prod_Categ_mid.objects.get(Code=catmid)
+            catsma2=obj.prod_categ_sma_set.all()
+            if catsma!="" and tester3:
+                obj=Prod_Categ_sma.objects.get(Code=catsma)
+                if prodname!="" and tester4:
+                    obj=Product.objects.get(Code=prodname)
+                    return render(req,'product.html',{'proddetail':obj,'userexist':viewuser,'catbig':catbig2,'catmid':catmid2,'catsma':catsma2})
+                fiterprod=obj.product_set.all()
+                return render(req,'product.html',{'prodsma':obj,'userexist':viewuser,'catbig':catbig2,'catmid':catmid2,'catsma':catsma2,'prodfiter':fiterprod})
+            fiterprod=obj.product_set.all()
+            return render(req,'product.html',{'prodmid':obj,'userexist':viewuser,'catbig':catbig2,'catmid':catmid2,'catsma':catsma2,'prodfiter':fiterprod})
+        fiterprod=catbig3.product_set.all()
+        return render(req,'product.html',{'prodbig':catbig3,'userexist':viewuser,'catbig':catbig2,'catmid':catmid2,'prodfiter':fiterprod})
+    messages.warning(req, '일치하는 대상이 없습니다. 메인페이지로 돌아갑니다.')
+    return redirect('/')

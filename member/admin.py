@@ -11,7 +11,7 @@ class ProdThmubInline(admin.TabularInline):
 # Proudct 클래스는 해당하는 Product_thumb 객체를 리스트로 관리한다. 
 class ProudctAdmin(admin.ModelAdmin):
     inlines = [ProdThmubInline, ]
-    readonly_fields=('Userveiw','Userpurchase',)
+    readonly_fields=('Userveiw','Userpurchase','EndPrice')
 
 class ProdreviewInline(admin.TabularInline):
     model = Product_reviewimg

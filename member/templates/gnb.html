@@ -13,22 +13,20 @@
                         </form>
                         <ul class="navbar-nav ms-auto my-2 mt-xl-3 mb-xl-0">
                             <li class="nav-item">
-                                <strong><a class="nav-link F2" href="/product/best">베스트</a></strong>
+                                <strong><a class="nav-link F2" href="/best">베스트</a></strong>
                             </li>
                             <li class="nav-item">
-                                <strong><a class="nav-link F2" href="/product/new">신상품</a></strong>
+                                <strong><a class="nav-link F2" href="/new">신상품</a></strong>
                             </li>
+                            {% if catbig %}
+                                {% for element in catbig %}
                             <li class="nav-item">
-                                <strong><a class="nav-link F2" href="/product/knowcontents">지식콘텐츠</a></strong>
+                                <strong><a class="nav-link F2 {% if prodbig == element or prodmid.Big == element or prodsma.Mid.Big == element or proddetail.Big == element %}active{% endif %}" href="/product/{{element.Code}}">{{element.Name}}</a></strong>
                             </li>
+                                {% endfor %}
+                            {% endif %}
                             <li class="nav-item">
-                                <strong><a class="nav-link F2" href="/product/handmade">핸드메이드</a></strong>
-                            </li>
-                            <li class="nav-item">
-                                <strong><a class="nav-link F2" href="/product/ideaproduct">아이디어상품</a></strong>
-                            </li>
-                            <li class="nav-item">
-                                <strong><a class="nav-link F2" href="/product/review">구매후기</a></strong>
+                                <strong><a class="nav-link F2" href="/review">구매후기</a></strong>
                             </li>
                         </ul>
                     </div>

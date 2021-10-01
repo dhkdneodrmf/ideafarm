@@ -2,6 +2,7 @@ from django.db import models
 from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.db.models.deletion import CASCADE
+from django.db.models import F, Sum
 from django.core.validators import RegexValidator
 
 GENDERS =(('M','남성(Man)'),('W','여성(woman)'))
@@ -149,12 +150,13 @@ class Product(models.Model): #분류를 반영한 상품 테이블 정의
     Stock=models.PositiveIntegerField(default=999999,verbose_name='재고수량')
     Seller=models.CharField(max_length=80, verbose_name='판매자', db_index=True)
     NormalPrice=models.PositiveIntegerField(verbose_name='정가(원)')
-    Discount=models.CharField(max_length=3, verbose_name='할인율(%)',validators=[RegexValidator(r'^((100)|(\d{1,2}(\.\d*)?))$','백분율 값을 입력해야합니다.')])
-    Option=models.CharField(max_length=5000, null=True, verbose_name='상품옵션')
+    Discount=models.FloatField(verbose_name='할인율(%)',validators=[RegexValidator(r'^((100)|(\d{1,2}(\.\d*)?))$','백분율 값을 입력해야합니다.')])
+    EndPrice=models.PositiveIntegerField(verbose_name='판매가(원)',default=0)
+    Option=models.CharField(max_length=5000, null=True, blank=True, verbose_name='상품옵션')
     Delicom=models.ForeignKey(Devlivery_com,on_delete=CASCADE,verbose_name='택배사 선택')
     Deliver=models.ForeignKey(Devlivery,on_delete=CASCADE,verbose_name='배송방법 선택')
     Deliverterm=models.ForeignKey(Devlivery_term,on_delete=CASCADE,verbose_name='배송정책 선택')
-    ProdRelation=models.ForeignKey('self',on_delete=CASCADE,verbose_name='연관상품 선택',null=True)
+    ProdRelation=models.ForeignKey('self',on_delete=CASCADE,verbose_name='연관상품 선택',null=True, blank=True)
     Pregisterday=models.DateTimeField(auto_now_add=True, verbose_name='상품등록일')
     Userveiw=models.PositiveIntegerField(default=0,verbose_name='상품조회수')
     Userpurchase=models.PositiveIntegerField(default=0,verbose_name='상품구매수')
@@ -164,6 +166,9 @@ class Product(models.Model): #분류를 반영한 상품 테이블 정의
         db_table = "ideafarm_Product"
         verbose_name = "상품"
         verbose_name_plural = "상품"
+    def save(self,*args,**kwargs):
+        self.EndPrice=self.NormalPrice - int(self.NormalPrice*self.Discount/100)
+        super(Product,self).save(*args, **kwargs)
 
 class Product_thumb(models.Model): #상품 테이블 중 이미지 필드 연결정의
     Product=models.ForeignKey(Product,on_delete=models.CASCADE)

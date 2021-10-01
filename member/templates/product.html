@@ -1,0 +1,41 @@
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="ko">
+    {% include 'head.html' %}
+    <body>
+        <header class="container-md p-0">
+            {% include 'tnb.html' %}
+            {% include 'gnb.html' %}
+        </header>
+        <section class="container-lg my-4 px-0" >
+            {% if not proddetail %}
+            <h4 class="p-2">{{prodbig}}{{prodmid.Big}}{{prodsma.Mid.Big}}</h4>
+            <p class="F3 mx-4"><a class="p-2 {% if prodbig %}fw-bold{% endif %}" href="/product/{{prodbig.Code}}{{prodmid.Big.Code}}{{prodsma.Mid.Big.Code}}">전체</a>{% for i in catmid %}<a class="p-2 {% if i == prodmid or i == prodsma.Mid %}fw-bold{% endif %}" href="/product/{{prodbig.Code}}{{prodmid.Big.Code}}{{prodsma.Mid.Big.Code}}/{{i.Code}}">{{i.Name}}</a>{% endfor %}</p>
+            {% if prodmid or prodsma %}
+            <p class="F4 mx-2"><a class="p-2 {% if prodmid %}fw-bold{% endif %}" href="/product/{{prodmid.Big.Code}}{{prodsma.Mid.Big.Code}}/{{prodmid.Code}}{{prodsma.Mid.Code}}">전체</a>{% for i in catsma %}<a class="p-2 {% if i == prodsma %}fw-bold{% endif %}" href="/product/{{prodmid.Big.Code}}{{prodsma.Mid.Big.Code}}/{{i.Mid.Code}}/{{i.Code}}">{{i.Name}}</a>{% endfor %}</p>
+            {% endif %}
+            {% if prodbig %}{{prodbig.Intro | safe}}{% endif %}{% if prodmid %}{{prodmid.Intro | safe}}{% endif %}{% if prodsma %}{{prodsma.Intro | safe}}{% endif %}
+            {% if not prodfiter %}
+            <div class="d-flex align-items-center justify-content-center" style="height:50vh;">등록된 상품이 없습니다.</div>
+            {% endif %}
+            <div class="row px-0">
+                {% for prodlist in prodfiter %}
+                <div class="col-lg-3 col-6 my-2 p-4">
+                    <a href="/product/{{prodlist.Big.Code}}/{{prodlist.Mid.Code}}/{{prodlist.Sma.Code}}/{{prodlist.Code}}">
+                    <img class="w-100" src="{{prodlist.product_thumb_set.first.image.url}}" height="300vh">
+                    <p class="F4 orange text-start mt-2 m-0">{{prodlist.Seller}}</p>
+                    <p class="F3 textcut w-100 text-start mb-1">{{prodlist.Name}}</p>
+                    <p class="F4 row align-items-center m-0">
+                        <span class="text-decoration-line-through text-start col p-0">{{prodlist.NormalPrice|intcomma}}원</span>
+                        <span class="orange col-2 p-0">({{prodlist.Discount}}%)</span>
+                        <span class="F2 text-end col-6 p-0"><strong>{{prodlist.EndPrice|intcomma}}원</strong></span>
+                    </p></a>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </section>
+        {% include 'footer.html' %}
+    </body>
+</html>
