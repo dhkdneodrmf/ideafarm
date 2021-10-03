@@ -2,7 +2,7 @@ from os import name
 from django.db.models.fields import NullBooleanField
 from django.db.models.query import prefetch_related_objects
 from django.shortcuts import redirect, render
-from .models import Prod_Categ_mid, Prod_Categ_sma, Product, User, Term, Exituser, Prod_Categ_big
+from .models import Prod_Categ_mid, Prod_Categ_sma, Product, User, Term, Exituser, Prod_Categ_big, Devlivery
 from django.contrib import messages
 import re
 #from django.http import HttpResponse
@@ -335,12 +335,12 @@ def poductview(req, catbig,catmid="",catsma="",prodname=""):
                 obj=Prod_Categ_sma.objects.get(Code=catsma)
                 if prodname!="" and tester4:
                     obj=Product.objects.get(Code=prodname)
-                    return render(req,'product.html',{'proddetail':obj,'userexist':viewuser,'catbig':catbig2,'catmid':catmid2,'catsma':catsma2})
+                    return render(req,'product.html',{'req':req,'proddetail':obj,'userexist':viewuser,'catbig':catbig2,'catmid':catmid2,'catsma':catsma2})
                 fiterprod=obj.product_set.all()
-                return render(req,'product.html',{'prodsma':obj,'userexist':viewuser,'catbig':catbig2,'catmid':catmid2,'catsma':catsma2,'prodfiter':fiterprod})
+                return render(req,'product.html',{'req':req,'prodsma':obj,'userexist':viewuser,'catbig':catbig2,'catmid':catmid2,'catsma':catsma2,'prodfiter':fiterprod})
             fiterprod=obj.product_set.all()
-            return render(req,'product.html',{'prodmid':obj,'userexist':viewuser,'catbig':catbig2,'catmid':catmid2,'catsma':catsma2,'prodfiter':fiterprod})
+            return render(req,'product.html',{'req':req,'prodmid':obj,'userexist':viewuser,'catbig':catbig2,'catmid':catmid2,'catsma':catsma2,'prodfiter':fiterprod})
         fiterprod=catbig3.product_set.all()
-        return render(req,'product.html',{'prodbig':catbig3,'userexist':viewuser,'catbig':catbig2,'catmid':catmid2,'prodfiter':fiterprod})
+        return render(req,'product.html',{'req':req,'prodbig':catbig3,'userexist':viewuser,'catbig':catbig2,'catmid':catmid2,'prodfiter':fiterprod})
     messages.warning(req, '일치하는 대상이 없습니다. 메인페이지로 돌아갑니다.')
     return redirect('/')

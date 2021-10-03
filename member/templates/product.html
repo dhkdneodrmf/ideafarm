@@ -21,7 +21,7 @@
             {% endif %}
             <div class="row px-0">
                 {% for prodlist in prodfiter %}
-                <div class="col-lg-3 col-6 my-2 p-4">
+                <div class="col-xl-3 col-lg-4 col-6 my-2 p-4">
                     <a href="/product/{{prodlist.Big.Code}}/{{prodlist.Mid.Code}}/{{prodlist.Sma.Code}}/{{prodlist.Code}}">
                     <img class="w-100" src="{{prodlist.product_thumb_set.first.image.url}}" height="300vh">
                     <p class="F4 orange text-start mt-2 m-0">{{prodlist.Seller}}</p>
@@ -34,6 +34,213 @@
                 </div>
                 {% endfor %}
             </div>
+            {% else %}
+                <div class="row px-0 border rounded">
+                    <div class="col-md-6 p-0">
+                        <img src="{{proddetail.product_thumb_set.first.image.url}}" width="100%" height="450vh" id="thumbnailimg">
+                        <div class="hstack gap-1 justify-content-center my-2">
+                            {% for prodimg in proddetail.product_thumb_set.all %}
+                            <div class="img-thumbnail">
+                                <img src="{{prodimg.image.url}}" style="cursor:pointer;" width="100%" height="50vh" onclick="changethumimg(this);">
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <hr>
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary rounded ms-3 dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="{% static 'farm/share.png' %}"> 공유하기
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                <li><button class="dropdown-item" type="button"><img src="{% static 'farm/share.png' %}" class="me-3">링크공유</button></li>
+                                <li><button class="dropdown-item" type="button"><img src="{% static '그룹 2683.png' %}" class="me-2">페이스북공유</button></li>
+                                <li><button class="dropdown-item" type="button"><img src="{% static '사각형 3283.png' %}" class="me-2">네이버공유</button></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6 px-3">
+                        <nav class="d-flex pt-3" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                            <ol class="breadcrumb mb-0 ">
+                                <li class="breadcrumb-item">{{proddetail.Big.Name}}</li>
+                                <li class="breadcrumb-item">{{proddetail.Mid.Name}}</li>
+                                <li class="breadcrumb-item">{{proddetail.Sma.Name}}</li>
+                            </ol>
+                        </nav>
+                        <h4 class="pt-4">{{proddetail.Name}}</h4>
+                        <p class="py-2">{{proddetail.SimExplanation}}</p>
+                        <table class="table table-borderless">
+                            <tr class="border-bottom">
+                                <th scope="row">판매자</th>
+                                <td>{{proddetail.Seller}}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">판매가격</th>
+                                <td class="text-decoration-line-through">{{proddetail.NormalPrice|intcomma}}원</td>
+                            </tr>
+                            <tr class="border-bottom">
+                                <th scope="row">할인가격</th>
+                                <td><h5>{{proddetail.EndPrice|intcomma}}원<span class="orange ms-3">{{proddetail.Discount}}% ↓</span></h5></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">배송방법</th>
+                                <td>{{proddetail.Deliver}}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">배송비</th>
+                                <td>{{proddetail.Deliver.Dprice|add:"원"|default:"무료"}}</td>
+                            </tr>
+                            <tr class="border-bottom">
+                                <th scope="row">택배사</th>
+                                <td>{{proddetail.Delicom}}</td>
+                            </tr>
+                            {% if proddetail.Stock < 1000 %}
+                            <tr>
+                                <th scope="row">재고</th>
+                                <td>{{proddetail.Stock}}</td>
+                            </tr>
+                            {% endif %}
+                            <tr>
+                                <th class="align-middle" scope="row">옵션</th>
+                                <td>
+                                    <div class="d-grid col-12 btn-group">
+                                        <button class="btn btn-outline-warning text-start dropdown-toggle" type="button" id="ProductDropdown" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false">
+                                            -옵션을 선택해주세요-
+                                        </button>
+                                        <ul class="dropdown-menu w-100" aria-labelledby="ProductDropdown" id="optionli">
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <div id="optionfield"></div>
+                        <div class="d-flex justify-content-between my-4">
+                            <div></div>
+                            <h5>총 상품금액</h5>
+                            <h5 class="orange" id="otp">0원</h5>
+                        </div>
+                        <form action="/order/purchase/?next={{req.path}}" id="order" method="POST" onsubmit="return isValid();">
+                            <div class="d-flex justify-content-between my-4">
+                                <div class="d-grid col-2 px-1">
+                                    <button class="btn btn-outline-secondary btn-lg" type="button" onclick="">♡</button>
+                                </div>
+                                <div class="d-grid col-4 px-1">
+                                    <button class="btn btn-outline-secondary btn-lg" type="button" onclick="cartsubmit();">장바구니</button>
+                                </div>
+                                <div class="d-grid col-6">
+                                    <button class="btn btn-outline-warning btn-lg" type="submit">구매하기</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <script>
+                    function addComma(val){ //천단위 콤마 펑션
+                            val = val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                            return val;
+                    };
+                    var text = '{% if proddetail.Option != None %}{{proddetail.Option}}{% else %}{{proddetail.Name}}{% endif %}';
+                    var options=text.split(',');
+                    var optprice=new Array();
+                    var optindex=new Array();
+                    var optdisplay=new Array();
+                    var tempcount
+                    for (var i=0;i<options.length;i++){
+                        optprice[i]=options[i].split(':');
+                        optindex[i]=i;
+                        optdisplay[i]=false;
+                        if (typeof(optprice[i][1])!=='undefined'){
+                            $('#optionli').append('<li><a class="dropdown-item" onclick="chageoption(this,'+optprice[i][1]+','+optindex[i]+');">'+optprice[i][0]+'&nbsp&nbsp&nbsp'+optprice[i][1]+'원</a></li>');
+                            $('#order').append('<input type="hidden" name="option'+i+'" value="'+optprice[i][0]+'"><input type="hidden" name="optioncount'+i+'" value=""><input type="hidden" name="optionprice'+i+'" value="'+optprice[i][1]+'">');
+                        } else {
+                            $('#optionli').append('<li><a class="dropdown-item" onclick="chageoption(this,0,'+optindex[i]+');">'+options[i]+'</a></li>');
+                            $('#order').append('<input type="hidden" name="option'+i+'" value="'+options[i]+'"><input type="hidden" name="optioncount'+i+'" value=""><input type="hidden" name="optionprice'+i+'" value="0">');
+                        };
+                    };
+                    $('#order').append('<input type="hidden" name="totalprice" value="">');
+                    function checkstock(){ //옵션 변동사항마다 재고보다 큰값인지 확인
+                        tempcount=0;
+                        $('#optionfield > div > div > input').each(function(index,value){
+                            tempcount=tempcount+parseInt($(value).val());
+                        });
+                        if (tempcount<{{proddetail.Stock}}){
+                            return true;
+                        } else {
+                            alert("상품의 재고수량을 초과하여 구매할 수 없습니다.");
+                            return false;
+                        };
+                    };
+                    function totalchange(){ //옵션의 값들에서총 상품금액 합산
+                        ordertotalprice=0;
+                        $('#optionfield > div > h6').each(function(index,value){
+                            //console.log(index);
+                            //console.log(value);
+                            temp=$(value).html().replace(/[^\d]+/g, "");
+                            temp=temp.replace("원","");
+                            temp=parseInt(temp);
+                            //console.log(temp);
+                            ordertotalprice=ordertotalprice+temp;
+                        });
+                        //orederprice=ordertotalprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                        $('#otp').html(addComma(ordertotalprice)+'원');
+                        $('input[name=totalprice]').val(ordertotalprice);
+                    };
+                    function chageoption(th,price,disp){ //옵션 선택시 옵션 조정 항목을 추가하고 각 기능들에 정보를 넘김. 한항목에 한옵션만 나오게 함.
+                        if (checkstock() && !optdisplay[disp]) {
+                            optdisplay[disp] = true;
+                            $('#optionfield').append(`
+                            <div class="bg-secondary bg-opacity-10 row align-items-center my-2 py-1 rounded">
+                                <div class="col-6 text-truncate">`+$(th).html()+`</div>
+                                <div class="col-2"><input style="width:100%;" type="number" value="1" min="1" oninput="changeprice(this,`+disp+`);"></div>
+                                <h6 class="col-3 mb-0 text-end">`+addComma({{proddetail.EndPrice}}+price)+`원</h6>
+                                <button class="d-block col-1 btn-close" onclick="removeoption(this,`+disp+`);"></button>
+                            </div>`);
+                            totalchange();
+                            $('input[name=optioncount'+ disp +']').val(1);
+                        };
+                    };
+                    function removeoption(th,disp){ //선택한 옵션의 X버튼을 누를 시에 제거
+                        optdisplay[disp]=false;
+                        $(th).parent().remove();
+                        totalchange();
+                        $('input[name=optioncount'+ disp +']').val('');
+                        checkstock();
+                    };
+                    function changeprice(th,disp){ //옵션의 숫자를 바꿀때 가격변경과 총합을 변경실행, 만약 재고값을 초과하면 재고값에 맞추어 차감함.
+                        if (checkstock() && $(th).val()>0) {
+                        price=$(th).val()*{{proddetail.EndPrice}};
+                        //price=price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                        $(th).parent().next().html(addComma(price) +'원');
+                        totalchange();
+                        } else {
+                            $(th).val($(th).val()-(tempcount-{{proddetail.Stock}}));
+                            //document.location.reload();
+                        };
+                        $('input[name=optioncount'+ disp +']').val($(th).val());
+                    };
+                    function changethumimg(th){ //상품이미지 목록들 중 클릭하면 그 상품이미지로 썸네일 사진으로 변경하여 확인
+                        $('#thumbnailimg').attr("src",$(th).attr("src"));
+                    };
+                    //폼 제출시 이상여부 체크 html에서 대부분 필수항목 패턴으로 거르므로 만약의 경우만 대비
+                    function isValid(){
+                        optcount=0;
+                        for (var j=0;j<options.length;j++){
+                            if ($('input[name=optioncount'+ j +']').val()!="undefined"){
+                                optcount=optcount+$('input[name=optioncount'+ j +']').val();
+                            };
+                        };
+                        if (optcount <= 0 ){
+                            alert('구매하려는 옵션을 선택해야 합니다.');
+                            return false;
+                        };
+                        return true;
+                    };
+                    //장바구니 클릭시 주소 바꿔서 폼 제출
+                    function cartsubmit(){
+                        if (isValid()){
+                            $('#order').attr("action","/order/cart/?next={{req.path}}");
+                            $('#order').submit();
+                        };
+                    };
+                </script>
             {% endif %}
         </section>
         {% include 'footer.html' %}

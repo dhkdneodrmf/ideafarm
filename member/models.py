@@ -1,3 +1,4 @@
+import re
 from django.db import models
 from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField
@@ -144,7 +145,7 @@ class Product(models.Model): #분류를 반영한 상품 테이블 정의
     Sma=models.ForeignKey(Prod_Categ_sma,on_delete=models.CASCADE, verbose_name='소분류선택')
     Code=models.CharField(max_length=20, verbose_name='상품분류코드', unique=True, db_index=True)
     Name=models.CharField(max_length=50, verbose_name='상품명', db_index=True)
-    Descrition=models.CharField(max_length=100, verbose_name='상품간단설명', db_index=True)
+    SimExplanation=models.CharField(max_length=100, verbose_name='상품간단설명', db_index=True,default='')
     Descrition=models.CharField(max_length=120, verbose_name='상품태그', db_index=True)
     Detail=RichTextUploadingField(verbose_name='상품상세설명', blank=True,null=True)
     Stock=models.PositiveIntegerField(default=999999,verbose_name='재고수량')
@@ -168,6 +169,9 @@ class Product(models.Model): #분류를 반영한 상품 테이블 정의
         verbose_name_plural = "상품"
     def save(self,*args,**kwargs):
         self.EndPrice=self.NormalPrice - int(self.NormalPrice*self.Discount/100)
+        print(self.Option)
+        if self.Option==None:
+            self.Option=re.sub(r'[,|\:]',"",self.Name)
         super(Product,self).save(*args, **kwargs)
 
 class Product_thumb(models.Model): #상품 테이블 중 이미지 필드 연결정의
