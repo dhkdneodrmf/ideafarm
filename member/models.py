@@ -161,6 +161,7 @@ class Product(models.Model): #분류를 반영한 상품 테이블 정의
     Pregisterday=models.DateTimeField(auto_now_add=True, verbose_name='상품등록일')
     Userveiw=models.PositiveIntegerField(default=0,verbose_name='상품조회수')
     Userpurchase=models.PositiveIntegerField(default=0,verbose_name='상품구매수')
+    Paytax=models.CharField(max_length=1, verbose_name='과세유형', default=1, choices=(('1','과세'),('2','면세')))
     def __str__(self):
         return self.Name
     class Meta:
@@ -183,9 +184,13 @@ class Product_thumb(models.Model): #상품 테이블 중 이미지 필드 연결
 
 class Product_qna(models.Model): #상품문의 정의
     Product=models.ForeignKey(Product,on_delete=CASCADE)
-    Question=models.TextField(max_length=4000, verbose_name='상품문의내용', db_index=True)
+    QTitle=models.CharField(max_length=100,verbose_name='제목', db_index=True,default='')
+    Question=models.TextField(max_length=10000, verbose_name='상품문의내용', db_index=True)
     Asker=models.ForeignKey(User,on_delete=CASCADE)
-    Answer=models.TextField(max_length=4000, verbose_name='상품답변내용', null=True, db_index=True)
+    Answer=models.TextField(max_length=10000, verbose_name='상품답변내용', null=True, db_index=True)
+    QWriteday=models.DateTimeField(auto_now_add=True, verbose_name='작성일')
+    def __str__(self):
+        return self.QTitle
     class Meta:
         verbose_name = "상품문의"
         verbose_name_plural = "상품문의"
@@ -193,9 +198,11 @@ class Product_qna(models.Model): #상품문의 정의
 class Product_review(models.Model): #상품후기 정의
     Product=models.ForeignKey(Product,on_delete=CASCADE)
     Evaluate=models.CharField(max_length=4,verbose_name='평점', db_index=True, validators=[RegexValidator(r'^((5)|([0-4]{1}(\.\d*)?))$','0~5점 사이를 입력하세요.')])
-    Content=models.TextField(max_length=4000, verbose_name='상품리뷰', db_index=True)
-    Asker=models.ForeignKey(User,on_delete=CASCADE)
-    Answer=models.TextField(max_length=4000, verbose_name='후기답변내용', null=True, db_index=True)
+    ReTitle=models.CharField(max_length=100,verbose_name='제목', db_index=True,default='')
+    Content=models.TextField(max_length=10000, verbose_name='내용', db_index=True)
+    Reviewer=models.ForeignKey(User,on_delete=CASCADE)
+    Answer=models.TextField(max_length=10000, verbose_name='후기답변내용', null=True, db_index=True)
+    RWriteday=models.DateTimeField(auto_now_add=True, verbose_name='작성일')
     class Meta:
         verbose_name = "상품후기"
         verbose_name_plural = "상품후기"
@@ -206,3 +213,35 @@ class Product_reviewimg(models.Model): #상품후기 이미지 필드 연결정�
     class Meta:
         verbose_name = "이미지업로드"
         verbose_name_plural = "이미지업로드"
+
+class Like(models.Model): #좋아요 테이블 정보 정의
+    User=models.ForeignKey(User,on_delete=CASCADE,verbose_name='해당사용자')
+    Product=models.ForeignKey(Product,on_delete=CASCADE,verbose_name='해당제품')
+    Islike=models.BooleanField(default=False, verbose_name='좋아요 여부')
+    registerday=models.DateTimeField(auto_now_add=True, verbose_name='등록일')
+    class Meta:
+        verbose_name = "좋아요"
+        verbose_name_plural = "좋아요"
+
+class Cart(models.Model): #장바구니 테이블 정보 정의
+    User=models.ForeignKey(User,on_delete=CASCADE,verbose_name='해당사용자')
+    Product=models.ForeignKey(Product,on_delete=CASCADE,verbose_name='해당제품')
+    Optioninfo=models.JSONField(default=dict, verbose_name='상품옵션정보')
+    registerday=models.DateTimeField(auto_now_add=True, verbose_name='등록일')
+    class Meta:
+        verbose_name = "장바구니"
+        verbose_name_plural = "장바구니"
+
+class Order(models.Model): #상품주문 테이블 정보 정의
+    User=models.ForeignKey(User,on_delete=CASCADE,verbose_name='해당사용자')
+    Product=models.ForeignKey(Product,on_delete=CASCADE,verbose_name='해당제품')
+    Optioninfo=models.JSONField(default=dict, verbose_name='상품옵션정보')
+    Devliveryplace=models.CharField(max_length=200, verbose_name='배송지')
+    Payment=models.CharField(max_length=50, verbose_name='결제방법')
+    Devliverfee=models.PositiveIntegerField(verbose_name='배송비')
+    Orderprice=models.PositiveIntegerField(verbose_name='총결제금액')
+    Ordercondition=models.CharField(max_length=1, verbose_name='주문상태', default=1, choices=(('1','주문(결제)완료'),('2','입금확인'),('3','배송준비중'),('4','배송시작'),('5','배송완료'),('6','주문취소'),('7','반품처리'),('8','품절'),('9','기타')))
+    registerday=models.DateTimeField(auto_now_add=True, verbose_name='주문등록일')
+    class Meta:
+        verbose_name = "장바구니"
+        verbose_name_plural = "장바구니"

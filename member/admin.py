@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Devlivery, Devlivery_com, Devlivery_term, Exituser, Prod_Categ_big, Prod_Categ_mid, Prod_Categ_sma, Product_review, Product_reviewimg, User,Term,Product_thumb,Product
+from .models import Devlivery, Devlivery_com, Devlivery_term, Exituser, Prod_Categ_big, Prod_Categ_mid, Prod_Categ_sma, Product_qna, Product_review, Product_reviewimg, User,Term,Product_thumb,Product
 
 class Termconfig(admin.ModelAdmin):
     readonly_fields=('registerday',)
@@ -30,4 +30,5 @@ admin.site.register(Product, ProudctAdmin)
 admin.site.register(Devlivery_com)
 admin.site.register(Devlivery_term,Termconfig)
 admin.site.register(Devlivery)
+admin.site.register(Product_qna)
 admin.site.register(Product_review, ProudctreviewAdmin)

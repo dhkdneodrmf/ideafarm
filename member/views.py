@@ -1,19 +1,19 @@
 from os import name
-from django.db.models.fields import NullBooleanField
-from django.db.models.query import prefetch_related_objects
 from django.shortcuts import redirect, render
-from .models import Prod_Categ_mid, Prod_Categ_sma, Product, User, Term, Exituser, Prod_Categ_big, Devlivery
+from .forms import Writeproductqna
+from .models import Prod_Categ_mid, Prod_Categ_sma, Product, Product_qna, Product_review, User, Term, Exituser, Prod_Categ_big, Devlivery
 from django.contrib import messages
 import re
 #from django.http import HttpResponse
 # Create your views here.
 def index(req): #메인 페이지 구동함수
+    review=Product_review.objects.all().order_by()
     catbig=Prod_Categ_big.objects.order_by()
     if req.session.get('uid'):
         loggeduser=User.objects.get(UID=req.session['uid'])
-        return render(req, 'main.html',{'req':req,'userexist':loggeduser,'catbig':catbig})
+        return render(req, 'main.html',{'req':req,'userexist':loggeduser,'catbig':catbig,'reviews':review})
     else:
-        return render(req, 'main.html',{'req':req,'catbig':catbig})
+        return render(req, 'main.html',{'req':req,'catbig':catbig,'reviews':review})
 
 def login(req): #로그인 페이지 구동함수
     if req.session.get('uid'):
@@ -335,7 +335,21 @@ def poductview(req, catbig,catmid="",catsma="",prodname=""):
                 obj=Prod_Categ_sma.objects.get(Code=catsma)
                 if prodname!="" and tester4:
                     obj=Product.objects.get(Code=prodname)
-                    return render(req,'product.html',{'req':req,'proddetail':obj,'userexist':viewuser,'catbig':catbig2,'catmid':catmid2,'catsma':catsma2})
+                    if req.method == 'POST':
+                        if not req.POST.get('qnaremove'):
+                            if req.POST.get('qnamod'):
+                                qna=Product_qna.objects.get(id=req.POST.get('qnamod'))
+                                qna.QTitle=req.POST.get('QTitle')
+                                qna.Question=req.POST.get('Question')
+                            else:
+                                qna=Product_qna(Product=obj,QTitle=req.POST.get('QTitle'),Question=req.POST.get('Question'),Asker=viewuser)
+                            qna.save()
+                        else:
+                            qna=Product_qna.objects.get(id=req.POST.get('qnaremove'))
+                            qna.delete()
+                        return redirect('/product/'+catbig+'/'+catmid+'/'+catsma+'/'+prodname)
+                    form = Writeproductqna(req.POST)
+                    return render(req,'product.html',{'req':req,'proddetail':obj,'userexist':viewuser,'catbig':catbig2,'catmid':catmid2,'catsma':catsma2,'form':form})
                 fiterprod=obj.product_set.all()
                 return render(req,'product.html',{'req':req,'prodsma':obj,'userexist':viewuser,'catbig':catbig2,'catmid':catmid2,'catsma':catsma2,'prodfiter':fiterprod})
             fiterprod=obj.product_set.all()
@@ -344,3 +358,30 @@ def poductview(req, catbig,catmid="",catsma="",prodname=""):
         return render(req,'product.html',{'req':req,'prodbig':catbig3,'userexist':viewuser,'catbig':catbig2,'catmid':catmid2,'prodfiter':fiterprod})
     messages.warning(req, '일치하는 대상이 없습니다. 메인페이지로 돌아갑니다.')
     return redirect('/')
+
+def qnacontrol(req): #qna조절로 넘어온 ajax 구동함수
+    targetqna=Product_qna.objects.get(id=req.POST.get('id'))
+    try:
+        checkuser=User.objects.get(UID=req.session.get('uid'))
+        if targetqna.Asker == checkuser:
+            return render(req, 'proudctqna.html',{'targetqna':targetqna,'writer':checkuser})
+        return render(req, 'proudctqna.html',{'targetqna':targetqna})
+    except User.DoesNotExist:
+        return render(req, 'proudctqna.html',{'targetqna':targetqna})
+
+def reviewall(req): #후기표시
+    review=Product_review.objects.all().order_by()
+    catbig=Prod_Categ_big.objects.order_by()
+    if req.session.get('uid'):
+        loggeduser=User.objects.get(UID=req.session['uid'])
+        return render(req, 'review.html',{'req':req,'userexist':loggeduser,'catbig':catbig,'reviews':review})
+    else:
+        return render(req, 'review.html',{'req':req,'catbig':catbig,'reviews':review})
+
+def productsearch(req): # 상품검색화면
+    targetproduct=Product.objects.filter(Name__icontains=req.GET.get('search')).order_by()
+    catbig=Prod_Categ_big.objects.order_by()
+    if req.session.get('uid'):
+        loggeduser=User.objects.get(UID=req.session['uid'])
+        return render(req,'searchlist.html',{'req':req,'userexist':loggeduser,'catbig':catbig,'searched':targetproduct})
+    return render(req,'searchlist.html',{'req':req,'catbig':catbig,'searched':targetproduct})

@@ -24,4 +24,7 @@ urlpatterns = [
     path('product/<str:catbig>/<str:catmid>',views.poductview), #카테고리 및 상품 페이지 이동 라우팅
     path('product/<str:catbig>/<str:catmid>/<str:catsma>',views.poductview), #카테고리 및 상품 페이지 이동 라우팅
     path('product/<str:catbig>/<str:catmid>/<str:catsma>/<str:prodname>',views.poductview), #카테고리 및 상품 페이지 이동 라우팅
+    path('qnacontrol',views.qnacontrol), #QNA jax조절 이동 라우팅
+    path('review',views.reviewall), #구매후기 이동 라우팅
+    path('search',views.productsearch), #상품검색 이동 라우팅
 ] 

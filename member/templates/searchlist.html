@@ -1,0 +1,31 @@
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="ko">
+    {% include 'head.html' %}
+    <body>
+        <header class="container-md p-0">
+            {% include 'tnb.html' %}
+            {% include 'gnb.html' %}
+        </header>
+        <section class="container my-3 px-0">
+            <h4 class="p-2">상품검색결과</h4>
+            <div class="row">
+                {% for prodlist in searched %}
+                <div class="col-xl-3 col-lg-4 col-6 my-2 p-4">
+                    <a href="/product/{{prodlist.Big.Code}}/{{prodlist.Mid.Code}}/{{prodlist.Sma.Code}}/{{prodlist.Code}}">
+                    <img class="w-100" src="{{prodlist.product_thumb_set.first.image.url}}" height="300vh">
+                    <p class="F4 orange text-start mt-2 m-0">{{prodlist.Seller}}</p>
+                    <p class="F3 textcut w-100 text-start mb-1">{{prodlist.Name}}</p>
+                    <p class="F4 row align-items-center m-0">
+                        <span class="text-decoration-line-through text-start col p-0">{{prodlist.NormalPrice|intcomma}}원</span>
+                        <span class="orange col-2 p-0">({{prodlist.Discount}}%)</span>
+                        <span class="F2 text-end col-6 p-0"><strong>{{prodlist.EndPrice|intcomma}}원</strong></span>
+                    </p></a>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+        {% include 'footer.html' %}
+    </body>
+</html>

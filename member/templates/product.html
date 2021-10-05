@@ -46,7 +46,10 @@
                             {% endfor %}
                         </div>
                         <hr>
-                        <div class="dropdown">
+                        <button class="btn btn-outline-secondary rounded ms-3" type="button" id="dropdownMenu2">
+                            <img src="{% static 'farm/share.png' %}"> 공유하기
+                        </button>
+                        {% comment %} <div class="dropdown">
                             <button class="btn btn-outline-secondary rounded ms-3 dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
                                 <img src="{% static 'farm/share.png' %}"> 공유하기
                             </button>
@@ -55,7 +58,7 @@
                                 <li><button class="dropdown-item" type="button"><img src="{% static '그룹 2683.png' %}" class="me-2">페이스북공유</button></li>
                                 <li><button class="dropdown-item" type="button"><img src="{% static '사각형 3283.png' %}" class="me-2">네이버공유</button></li>
                             </ul>
-                        </div>
+                        </div> {% endcomment %}
                     </div>
                     <div class="col-md-6 px-3">
                         <nav class="d-flex pt-3" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
@@ -132,11 +135,220 @@
                         </form>
                     </div>
                 </div>
+                <article>
+                    <ul class="row nav nav-tabs my-4 justify-content-center" id="scrollspyHeading1">
+                        <li class="col text-center nav-item" role="presentation">
+                            <a class="nav-link active" href="#scrollspyHeading1">상세설명</a>
+                        </li>
+                        <li class="col text-center nav-item" role="presentation">
+                            <a class="nav-link" href="#scrollspyHeading2">구매후기({{proddetail.product_review_set.all|length}})</a>
+                        </li>
+                        <li class="col text-center nav-item" role="presentation">
+                            <a class="nav-link" href="#scrollspyHeading3">상품문의({{proddetail.product_qna_set.all|length}})</a>
+                        </li>
+                        <li class="col text-center nav-item" role="presentation">
+                            <a class="nav-link" href="#scrollspyHeading4">배송안내</a>
+                        </li>
+                    </ul>
+                    <div class="my-5">
+                        {{proddetail.Detail|safe}}
+                    </div>
+                    <ul class="row nav nav-tabs my-4 justify-content-center" id="scrollspyHeading2">
+                        <li class="col text-center nav-item" role="presentation">
+                            <a class="nav-link" href="#scrollspyHeading1">상세설명</a>
+                        </li>
+                        <li class="col text-center nav-item" role="presentation">
+                            <a class="nav-link active" href="#scrollspyHeading2">구매후기({{proddetail.product_review_set.all|length}})</a>
+                        </li>
+                        <li class="col text-center nav-item" role="presentation">
+                            <a class="nav-link" href="#scrollspyHeading3">상품문의({{proddetail.product_qna_set.all|length}})</a>
+                        </li>
+                        <li class="col text-center nav-item" role="presentation">
+                            <a class="nav-link" href="#scrollspyHeading4">배송안내</a>
+                        </li>
+                    </ul>
+                    <div class="my-5">
+                        <h5>구매후기</h5>
+                        <p>상품을 구매하신 분들이 작성하신 리뷰입니다.</p>
+                        <div class="bg-secondary bg-opacity-10 p-3 text-center">
+                            <div class="row px-0">
+                                <h6 class="col ">구매후기 평점</h6>
+                                <h6 class="col">전체 구매자</h6>
+                            </div>
+                            <div class="row px-0 mt-3">
+                                <p class="col fs-3" id="reviewstar">
+                                </p>
+                                <p class="col"><img src="{% static 'farm/people.png' %}" class="mx-2">{{proddetail.product_review_set.all|length}}명 참여</p>
+                            </div>
+                        </div>
+                        {% for reviewlist in proddetail.product_review_set.all %}
+                        <div class="col-lg-12 p-0 my-3">
+                            <div class="reviewborder m-1 p-3">
+                                <div class="position-relative">
+                                    <img src="{% static 'farm/그룹 3294.png' %}" class="position-absolute top-0 end-0">
+                                </div>
+                                <div class="float-start m-2">
+                                    <img src="{{reviewlist.product_reviewimg_set.first.image.url}}" width="100vw" height="100vh">
+                                </div>
+                                <div>
+                                    <p class="F4 text-truncate p-0 m-2"><strong>{{reviewlist.ReTitle}}</strong></p>
+                                    {% for j in "x"|rjust:"5" %}
+                                        {% if reviewlist.Evaluate >= forloop.counter %}
+                                        <img src="{% static 'farm/패스 5724.png' %}">
+                                        {% else %}
+                                        <img src="{% static 'farm/패스 5728.png' %}">
+                                        {% endif %}
+                                    {% endfor %}
+                                    <strong class="mx-2 align-middle">{{reviewlist.Evaluate}}</strong>
+                                    <span class="vr mx-2 align-middle"></span>
+                                    <span class="align-middle" style="color:#AEAEAE;">{{reviewlist.Reviewer.Unick}}  ·  {{reviewlist.RWriteday|date:"Y-m-d"}}</span>
+                                    <p class="F4 textcut my-2 w-auto">{{reviewlist.Content}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <ul class="row nav nav-tabs my-4 justify-content-center" id="scrollspyHeading3">
+                        <li class="col text-center nav-item" role="presentation">
+                            <a class="nav-link" href="#scrollspyHeading1">상세설명</a>
+                        </li>
+                        <li class="col text-center nav-item" role="presentation">
+                            <a class="nav-link" href="#scrollspyHeading2">구매후기({{proddetail.product_review_set.all|length}})</a>
+                        </li>
+                        <li class="col text-center nav-item" role="presentation">
+                            <a class="nav-link active" href="#scrollspyHeading3">상품문의({{proddetail.product_qna_set.all|length}})</a>
+                        </li>
+                        <li class="col text-center nav-item" role="presentation">
+                            <a class="nav-link" href="#scrollspyHeading4">배송안내</a>
+                        </li>
+                    </ul>
+                    <div class="my-5">
+                        <h5>상품문의</h5>
+                        <p>구매상품에 대해 궁금하신 점이 있으시다면 문의를 남겨주세요.</p>
+                        <button class="btn btn-outline-info float-end" onclick="qnaform(this);">문의작성</button>
+                        <table class="table text-center" id="qnalist">
+                            <thead>
+                                <tr class="text-center">
+                                    <th class="col">답변상태</th>
+                                    <th class="col-7">제목</th>
+                                    <th class="col">작성자</th>
+                                    <th class="col">작성일</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% if proddetail.product_qna_set.all %}
+                                {% for qnali in proddetail.product_qna_set.all %}
+                                <tr>
+                                    <th scope="row">{% if qnali.Answer == None %}<span class="fs-bold text-danger">미완료</span>{% else %}<span class="fs-bold text-success">완료</span>{% endif %}</th>
+                                    <td class="text-start text-truncate"><a href="#qnalist" onclick="qnaview({{qnali.id}});">{{qnali.QTitle}}</a></td>
+                                    <td>{{qnali.Asker.Unick}}</td>
+                                    <td>{{qnali.QWriteday|date:"Y-m-d H:i"}}</td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td class="text-center py-4" colspan="4">해당상품의 문의가 존재하지 않습니다.</td>
+                                </tr>
+                            {% endif %}
+                            </tbody>
+                        </table>
+                        <div class="bg-secondary bg-opacity-10" id="qnaview"></div>
+                        <form method="POST" id="qnaform"></form>
+                    </div>
+                    <ul class="row nav nav-tabs my-4 justify-content-center" id="scrollspyHeading4">
+                        <li class="col text-center nav-item" role="presentation">
+                            <a class="nav-link" href="#scrollspyHeading1">상세설명</a>
+                        </li>
+                        <li class="col text-center nav-item" role="presentation">
+                            <a class="nav-link" href="#scrollspyHeading2">구매후기({{proddetail.product_review_set.all|length}})</a>
+                        </li>
+                        <li class="col text-center nav-item" role="presentation">
+                            <a class="nav-link" href="#scrollspyHeading3">상품문의({{proddetail.product_qna_set.all|length}})</a>
+                        </li>
+                        <li class="col text-center nav-item" role="presentation">
+                            <a class="nav-link active" href="#scrollspyHeading4">배송안내</a>
+                        </li>
+                    </ul>
+                    <div class="my-5" id="scrollspyHeading4">
+                        <h5>배송안내</h5>
+                        <p class="bg-secondary bg-opacity-10 p-3 my-4 rounded">배송정책에 따라 무료배송 또는 배송비 발생 (상품정보에서 배송비 기준 확인가능)</p>
+                        <h6 class="m-3">배송비</h6>
+                        <p class="my-2 ms-3">도서, 산간, 오지, 일부지역 등은 배송비가 추가될 수 있습니다.</p>
+                        <table class="table border my-3">
+                            <tbody>
+                                <tr>
+                                    <th class="table-secondary text-center align-middle" scope="row">배송방법</th>
+                                    <td>구매 후, 1~5일(영업일 기준) 이내에 배송됩니다.<br>구매 상품의 재고상황이나 배송 상황, 지역에 따라 배송이 지연될 수 있습니다.<br>예약상품, 주문제작 상품의 경우 제작기간과 배송시기를 확인 후 구매해주시기 바랍니다.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <h6 class="m-3">교환/반품</h6>
+                        <p class="my-2 ms-3">교환, 반품 시 먼저 판매자와 반품사유, 택배사, 배송비, 반품 주소지 등을 협의한 후 상품을 발송해주시기 바랍니다.</p>
+                        <table class="table border my-3" style="font-size:14px;">
+                            <tbody>
+                                <tr>
+                                    <th class="table-secondary align-middle" style="width:15%;">지정 택배사</th>
+                                    <td>CJ 대한통운</td>
+                                </tr>
+                                <tr>
+                                    <th class="table-secondary align-middle">교환 배송비</th>
+                                    <td>5,000원</td>
+                                </tr>
+                                <tr>
+                                    <th class="table-secondary align-middle">반품 배송비</th>
+                                    <td>2,500원</td>
+                                </tr>
+                                <tr>
+                                    <th class="table-secondary align-middle">교환/반품 배송지</th>
+                                    <td>서울특별시 금천구 가산디지털2로 14, 503호 아이디어드림 (우 : 08592)</td>
+                                </tr>
+                                <tr>
+                                    <th class="table-secondary align-middle" rowspan="2">교환/반품 사유에<br>따른 요청 가능 기간</th>
+                                    <td>구매자 단순 변심은 상품 수령 후 7일 이내 (구매자 반품배송비 부담)</td>
+                                </tr>
+                                <tr>
+                                    <td>표시/광고와 상이, 상품하자의 경우 상품 수령 후 3개월 이내 혹은 표시/광고와 다른 사실을 안 날로부터 30일 이내<br>둘 중 하나 경과 시 교환/반품 불가</td>
+                                </tr>
+                                <tr>
+                                    <th class="table-secondary align-middle">교환/반품 <br>불가능 사유</th>
+                                    <td>1. 반품요청기간이 지난 경우<br>
+2. 구매자의 책임 있는 사유로 상품 등이 멸실 또는 훼손된 경우 (단, 상품의 내용을 확인하기 위하여 포장 등을 훼손한 경우는 제외)<br>
+3. 구매자의 책임있는 사유로 포장이 훼손되어 상품가치가 현저히 상실된 경우 (예: 식품, 화장품, 향수류, 음반등)<br>
+4. 구매자의 사용 또는 일부 소비에 의하여 상품의 가치가 현저히 감소한 경우 (예: 식품, 화장품, 향수류, 음반등)<br>
+5. 시간의 경과에 의하여 재판매가 곤란할 정로도 상품 등의 가치가 현저히 감소한 경우 (예: 식품, 향수류 등)<br>
+6. 고객의 요청사항에 맞춰 제작에 들어가는 맞춤제작상품의 경우<br>
+7. 복제가 가능한 상품 등의 포장을 훼손된 경우 (예: CD/DVD 등의 무형의 콘텐츠 상품)</td>
+                                </tr>
+                                <tr>
+                                    <th class="table-secondary align-middle">교환/반품<br>참고사항</th>
+                                    <td>- 전자상거래 등에서의 소비자 보호에 관한 법률에 의한 반품규정이 판매자가 지정한 반품조건보다 우선합니다.<br>
+- 구매자가 미성년자인 경우에는 상품 구입시 법정 대리인이 동의하지 아니하면 미성년자 본인 또는 법정 대리인이 구매취소 할 수 있습니다.<br>
+- 사용 중 발생한 하자의 환불/교환/수리 등은 공정거래위원회 소비자분쟁해결기준에 준하여 처리됩니다. (제조사/브랜드 A/S센터로 문의)<br>
+- 대금 환불 및 환불 지연에 따른 배상금 지급 조건,절차 등은 전자상거래 등에서의 소비자 보호에 관한 법률에 따라 처리합니다.<br>
+- 품질경영 및 공산품안전관리법 규정에 의한 안전검사대상품목인 공산품 및 어린이보호포장대상공산품을 판매 또는 구매하실 경우는 안전검사를 받은 제품이거나 어린이보호포장대상 적용제품인지 확인하시기 바랍니다.<br>
+- 전기용품안전관리법 및 전기통신기본법, 전파법에 의거하여 인증 대상 상품을 구매하실 경우, 안전인증 또는 형식승인, 전자파적합등록 제품 여부를 확인하시기 바랍니다.<br>
+- 반품/교환 시 고객님 귀책사유로 인해 수거가 지연될 경우에는 반품이 제한될 수 있습니다.<br>
+- 쿠폰 이용 할인금액 및 제조사의 사정 및 부품 가격변동 등에 의해 가격이 변동 발생 시 이로 인한 반품 및 가격보상은 불가합니다.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
                 <script>
                     function addComma(val){ //천단위 콤마 펑션
                             val = val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                             return val;
                     };
+                    var reviewscore=[ {% for review in proddetail.product_review_set.all %}{{review.Evaluate}},{% endfor %} ];
+                    var avgscore=reviewscore.reduce(function add(sum,currValue){return sum+currValue;},0);
+                    for (var k=1;k<6;k++){
+                        if (avgscore>=k){
+                            $('#reviewstar').append(`<img src="{% static 'farm/totalstar.png' %}" class="mx-1" width="50vw">`);
+                        } else {
+                            $('#reviewstar').append(`<img src="{% static 'farm/totalnonstar.png' %}" class="mx-1" width="50vw">`);
+                        };
+                    };
+                    $('#reviewstar').append(avgscore + `/5`);
                     var text = '{% if proddetail.Option != None %}{{proddetail.Option}}{% else %}{{proddetail.Name}}{% endif %}';
                     var options=text.split(',');
                     var optprice=new Array();
@@ -239,6 +451,54 @@
                             $('#order').attr("action","/order/cart/?next={{req.path}}");
                             $('#order').submit();
                         };
+                    };
+                    //문의하기 폼 작성
+                    var qnacliked = false;
+                    function qnaform(th){
+                        {% if not userexist %}
+                        alert('문의를 작성하려면 로그인하세요.');
+                        location.href='{% url 'login' %}?next={{req.path}}';
+                        {% endif %}
+                        if (qnacliked){
+                            qnacliked=false;
+                            $(th).parent().children().last().html('');
+                        } else {
+                            qnacliked=true;
+                            $(th).parent().children().last().append(`{% csrf_token %}{{form.as_p}}<input type="submit" class="btn btn-success" value="완료">`);
+                        };
+                    };
+                    //qna보기 및 삭제
+                    function qnaview(th){
+                        $.post(
+                            "/qnacontrol",
+                            { id: th, csrfmiddlewaretoken:document.getElementsByName("csrfmiddlewaretoken")[0].value },
+                            function(idolc){
+                                $("#qnaview").html(idolc)
+                            }
+                        );
+                    };
+                    function qnaedit(th,pk){//qna수정
+                        selected=$(th).parent().parent().parent();
+                        qnatit=$(th).parent().parent().children().first().html();
+                        qnacon=$(th).parent().prev().prev().html();
+                        qnatit=qnatit.replace("제목 : ","");
+                        qnacon=qnacon.replace("문의 내용 : ","");
+                        selected.html('');
+                        qnacliked=true;
+                        selected.next().append(`{% csrf_token %}{{form.as_p}}<input type="submit" class="btn btn-success" value="완료">`);
+                        $('input[name=QTitle]').val(qnatit);
+                        $('textarea[name=Question]').html(qnacon);
+                        selected.next().append(`<input type="hidden", name="qnamod" value="`+pk+`">`);
+                    };
+                    function qnaremove(th,pk){//qna삭제
+                        if (confirm("정말로 해당 문의를 삭제하히겠습니까?")){
+                            $(th).parent().parent().parent().html('');
+                            $('#qnaform').append(`{% csrf_token %}<input type="hidden", name="qnaremove" value="`+pk+`">`);
+                            $('#qnaform').submit();
+                        };
+                    };
+                    function qnaclose(){//qna닫기
+                            $('#qnaview').html('');
                     };
                 </script>
             {% endif %}

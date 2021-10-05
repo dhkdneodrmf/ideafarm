@@ -1,0 +1,16 @@
+<div class="p-4">
+    <h5>제목 : {{targetqna.QTitle}} </h5>
+    <p class="my-3 text-end">작성자 : {{targetqna.Asker.Unick}}, 작성일 :  {{targetqna.QWriteday}}</p>
+    <p class="my-3">문의 내용 : {{targetqna.Question}}</p>
+    <p class="my-3">답변 : {% if targetqna.Answer == None %}답변이 입력되지 않았습니다.{% else %}{{targetqna.Answer}}{% endif %}</p>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        {% if writer %}
+        <button class="btn btn-warning m-2" onclick="qnaedit(this,{{targetqna.id}});">수정</button>
+        <button class="btn btn-danger m-2" onclick="qnaremove(this,{{targetqna.id}});">삭제</button>
+        {% else %}
+        <button class="btn btn-secondary m-2" onclick="qnaclose();">닫기</button>
+        {% endif %}
+    </div>
+    
+</div>
+    
