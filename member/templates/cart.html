@@ -1,0 +1,16 @@
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="ko">
+    {% include 'head.html' %}
+    <body>
+        <header class="container-md p-0">
+            {% include 'tnb.html' %}
+            {% include 'gnb.html' %}
+        </header>
+        <section class="container my-3 px-0">
+            <h4 class="p-2">결과페이지</h4>
+        </section>
+        {% include 'footer.html' %}
+    </body>
+</html>

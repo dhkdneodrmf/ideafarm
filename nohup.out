@@ -3940,3 +3940,11 @@ Not Found: /favicon.ico
 [24/Sep/2021 23:47:11] "GET /static/admin/img/icon-yes.svg HTTP/1.1" 200 436
 [24/Sep/2021 23:47:17] "GET /admin/member/prod_categ_mid/ HTTP/1.1" 200 6576
 [24/Sep/2021 23:47:26] "GET /admin/jsi18n/ HTTP/1.1" 200 8330
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+October 05, 2021 - 19:38:26
+Django version 3.2.6, using settings 'ideafarm.settings'
+Starting development server at http://0.0.0.0:7000/
+Quit the server with CONTROL-C.

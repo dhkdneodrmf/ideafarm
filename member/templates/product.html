@@ -46,7 +46,7 @@
                             {% endfor %}
                         </div>
                         <hr>
-                        <button class="btn btn-outline-secondary rounded ms-3" type="button" id="dropdownMenu2">
+                        <button class="btn btn-outline-secondary rounded ms-3" type="button" id="dropdownMenu2" onclick="share();">
                             <img src="{% static 'farm/share.png' %}"> 공유하기
                         </button>
                         {% comment %} <div class="dropdown">
@@ -89,7 +89,7 @@
                             </tr>
                             <tr>
                                 <th scope="row">배송비</th>
-                                <td>{{proddetail.Deliver.Dprice|add:"원"|default:"무료"}}</td>
+                                <td>{% if proddetail.Deliver.Dprice != None %}{{proddetail.Deliver.Dprice|intcomma}}원{% else %}무료{% endif %}</td>
                             </tr>
                             <tr class="border-bottom">
                                 <th scope="row">택배사</th>
@@ -120,7 +120,8 @@
                             <h5>총 상품금액</h5>
                             <h5 class="orange" id="otp">0원</h5>
                         </div>
-                        <form action="/order/purchase/?next={{req.path}}" id="order" method="POST" onsubmit="return isValid();">
+                        <form action="/order/purchase?next={{req.path}}" id="order" method="POST" onsubmit="return isValid();">
+                            {% csrf_token %}
                             <div class="d-flex justify-content-between my-4">
                                 <div class="d-grid col-2 px-1">
                                     <button class="btn btn-outline-secondary btn-lg" type="button" onclick="">♡</button>
@@ -192,13 +193,15 @@
                                 </div>
                                 <div>
                                     <p class="F4 text-truncate p-0 m-2"><strong>{{reviewlist.ReTitle}}</strong></p>
-                                    {% for j in "x"|rjust:"5" %}
-                                        {% if reviewlist.Evaluate >= forloop.counter %}
-                                        <img src="{% static 'farm/패스 5724.png' %}">
+                                    {% with list='1 2 3 4 5' %}
+                                    {% for j in list.split %}
+                                        {% if reviewlist.Evaluate >= j %}
+                                        <img src="{% static 'farm/패스 5724.png' %}" class="align-middle">
                                         {% else %}
-                                        <img src="{% static 'farm/패스 5728.png' %}">
+                                        <img src="{% static 'farm/패스 5728.png' %}" class="align-middle">
                                         {% endif %}
                                     {% endfor %}
+                                    {% endwith %}
                                     <strong class="mx-2 align-middle">{{reviewlist.Evaluate}}</strong>
                                     <span class="vr mx-2 align-middle"></span>
                                     <span class="align-middle" style="color:#AEAEAE;">{{reviewlist.Reviewer.Unick}}  ·  {{reviewlist.RWriteday|date:"Y-m-d"}}</span>
@@ -235,7 +238,7 @@
                                     <th class="col">작성일</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody>{% csrf_token %}
                             {% if proddetail.product_qna_set.all %}
                                 {% for qnali in proddetail.product_qna_set.all %}
                                 <tr>
@@ -340,7 +343,7 @@
                             return val;
                     };
                     var reviewscore=[ {% for review in proddetail.product_review_set.all %}{{review.Evaluate}},{% endfor %} ];
-                    var avgscore=reviewscore.reduce(function add(sum,currValue){return sum+currValue;},0);
+                    var avgscore=reviewscore.reduce(function add(sum,currValue){return (sum+currValue)/reviewscore.length;},0);
                     for (var k=1;k<6;k++){
                         if (avgscore>=k){
                             $('#reviewstar').append(`<img src="{% static 'farm/totalstar.png' %}" class="mx-1" width="50vw">`);
@@ -348,7 +351,7 @@
                             $('#reviewstar').append(`<img src="{% static 'farm/totalnonstar.png' %}" class="mx-1" width="50vw">`);
                         };
                     };
-                    $('#reviewstar').append(avgscore + `/5`);
+                    $('#reviewstar').append('<span class="align-middle ms-2">'+avgscore + `/5</span>`);
                     var text = '{% if proddetail.Option != None %}{{proddetail.Option}}{% else %}{{proddetail.Name}}{% endif %}';
                     var options=text.split(',');
                     var optprice=new Array();
@@ -448,7 +451,7 @@
                     //장바구니 클릭시 주소 바꿔서 폼 제출
                     function cartsubmit(){
                         if (isValid()){
-                            $('#order').attr("action","/order/cart/?next={{req.path}}");
+                            $('#order').attr("action","/order/cart?next={{req.path}}");
                             $('#order').submit();
                         };
                     };
@@ -499,6 +502,9 @@
                     };
                     function qnaclose(){//qna닫기
                             $('#qnaview').html('');
+                    };
+                    function share(){//공유하기
+                        alert("jyr.ideadream.co.kr:7000{{req.path}} 위 경로를 복사해서 다른 친구분들에게 보여주고 자랑해봐요.");
                     };
                 </script>
             {% endif %}

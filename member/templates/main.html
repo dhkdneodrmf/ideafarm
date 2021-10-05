@@ -15,7 +15,7 @@
                     <div class="pb-2" style="background-color:#7F675B;border-radius:15px;">
                         <img src="{% static 'farm/56c000d6526813b375e63f8d-original.png' %}" class="w-100" height="550vh">
                         <h2 class="text-white m-2">지식콘텐츠<br>BEST</h2>
-                        <a href="#"><p class="F3 m-3 p-2 border border-white text-white">전체보기 ▶</p></a>
+                        <a href="/product/knowledge"><p class="F3 m-3 p-2 border border-white text-white">전체보기 ▶</p></a>
                     </div>
                 </div>
                 <div class="col-lg-9 p-0" >
@@ -116,7 +116,7 @@
                     <div class="pb-2" style="background-color:#5296A5;border-radius:15px;">
                         <img src="{% static 'farm/170404_craftmanship_01.png' %}" width="100%" height="550vh">
                         <h2 class="text-white m-2">핸드메이드<br>BEST</h2>
-                        <a href="#"><p class="F3 m-3 p-2 border border-white text-white">◀ 전체보기</p></a>
+                        <a href="/product/handmade"><p class="F3 m-3 p-2 border border-white text-white">◀ 전체보기</p></a>
                     </div>
                 </div>
                 <div class="col-lg-9 p-0" >
@@ -215,7 +215,7 @@
                     <div class="pb-2" style="background-color:#5296A5;border-radius:15px;">
                         <img src="{% static 'farm/170404_craftmanship_01.png' %}" width="100%" height="550vh">
                         <h2 class="text-white m-2">핸드메이드<br>BEST</h2>
-                        <a href="#"><p class="F3 m-3 p-2 border border-white text-white">◀ 전체보기</p></a>
+                        <a href="/product/handmade"><p class="F3 m-3 p-2 border border-white text-white">◀ 전체보기</p></a>
                     </div>
                 </div>
             </div>
@@ -224,7 +224,7 @@
                     <div class="pb-2" style="background-color:#E84855;border-radius:15px;">
                         <img src="{% static 'farm/56c000d6526813b375e63f8d-original2.png' %}" width="100%" height="550vh">
                         <h2 class="text-white m-2">아이디어상품<br>BEST</h2>
-                        <a href="#"><p class="F3 m-3 p-2 border border-white text-white">전체보기 ▶</p></a>
+                        <a href="/product/ideaproduct"><p class="F3 m-3 p-2 border border-white text-white">전체보기 ▶</p></a>
                     </div>
                 </div>
                 <div class="col-lg-9 p-0" >
@@ -336,13 +336,15 @@
                         </div>
                         <div>
                             <p class="F4 text-truncate p-0 m-2"><strong>{{reviewlist.ReTitle}}</strong></p>
-                            {% for i in "x"|rjust:"5" %}
-                                {% if reviewlist.Evaluate >= forloop.counter %}
-                                <img src="{% static 'farm/패스 5724.png' %}">
+                            {% with list='1 2 3 4 5' %}
+                            {% for j in list.split %}
+                                {% if reviewlist.Evaluate >= j %}
+                                <img src="{% static 'farm/패스 5724.png' %}" class="align-middle">
                                 {% else %}
-                                <img src="{% static 'farm/패스 5728.png' %}">
+                                <img src="{% static 'farm/패스 5728.png' %}" class="align-middle">
                                 {% endif %}
                             {% endfor %}
+                            {% endwith %}
                             <strong class="mx-2 align-middle">{{reviewlist.Evaluate}}</strong>
                             <span class="vr mx-2 align-middle"></span>
                             <span class="align-middle" style="color:#AEAEAE;">{{reviewlist.Reviewer.Unick}}  ·  {{reviewlist.RWriteday|date:"Y-m-d"}}</span>

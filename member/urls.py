@@ -27,4 +27,6 @@ urlpatterns = [
     path('qnacontrol',views.qnacontrol), #QNA jax조절 이동 라우팅
     path('review',views.reviewall), #구매후기 이동 라우팅
     path('search',views.productsearch), #상품검색 이동 라우팅
+    path('order/cart',views.cart),#장바구니 이동 라우팅
+    path('order/purchase',views.purchase),#구매이동 라우팅
 ] 

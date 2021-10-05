@@ -385,3 +385,17 @@ def productsearch(req): # 상품검색화면
         loggeduser=User.objects.get(UID=req.session['uid'])
         return render(req,'searchlist.html',{'req':req,'userexist':loggeduser,'catbig':catbig,'searched':targetproduct})
     return render(req,'searchlist.html',{'req':req,'catbig':catbig,'searched':targetproduct})
+
+def cart(req):# 장바구니화면
+    catbig=Prod_Categ_big.objects.order_by()
+    if req.session.get('uid'):
+        loggeduser=User.objects.get(UID=req.session['uid'])
+        return render(req,'cart.html',{'req':req,'userexist':loggeduser,'catbig':catbig})
+    return render(req,'cart.html',{'req':req,'catbig':catbig})
+
+def purchase(req):# 구매내역화면
+    catbig=Prod_Categ_big.objects.order_by()
+    if req.session.get('uid'):
+        loggeduser=User.objects.get(UID=req.session['uid'])
+        return render(req,'cart.html',{'req':req,'userexist':loggeduser,'catbig':catbig})
+    return render(req,'cart.html',{'req':req,'catbig':catbig})
