@@ -7,6 +7,8 @@
 * 현재 데모사이트 http://jyr.ideadream.co.kr:9000/ 에 구현 
 * ckeditor 및 이미지 처리 pillow 모듈 사용하여 버전 확인 후 설치 필요
 
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/91244291/147218668-bc683696-c6d0-4f88-8fff-af90a1b8710c.gif)
+
 ### 메인페이지
 상단(GNB), 하단(FOOTER), 댓글 부분외에 상품은 미구현으로 퍼블리싱만 되어있음.
 
